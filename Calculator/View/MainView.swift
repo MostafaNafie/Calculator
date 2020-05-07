@@ -18,6 +18,17 @@ class MainView: UIView {
 		return label
 	}()
 	
+	private let secondOperandTextField: UITextField = {
+		let textField = UITextField()
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.placeholder = "Please Enter the Second Operand"
+		textField.font = .systemFont(ofSize: 17)
+		textField.textAlignment = .center
+		textField.borderStyle = .roundedRect
+		textField.keyboardType = .numberPad
+		return textField
+	}()
+	
 }
 
 // MARK: - Helper functions
@@ -31,6 +42,7 @@ extension MainView {
 	
 	private func setupUI() {
 		addSubview(resultLabel)
+		addSubview(secondOperandTextField)
 	}
 	
 	private func setupLayout() {
@@ -38,6 +50,11 @@ extension MainView {
 		NSLayoutConstraint.activate([
 			resultLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
 			resultLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+		])
+		// Second Operand TextField
+		NSLayoutConstraint.activate([
+			secondOperandTextField.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 20),
+			secondOperandTextField.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
 	}
 	
