@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		setupTextField()
 		setupCollectionView()
 		attachTargetsToButtons()
 	}
@@ -36,6 +37,33 @@ extension MainViewController {
 	@objc func operationButtonTapped(sender: UIButton) {
 		operation = sender.titleLabel?.text
 		print("\(operation!) Button Tapped")
+	}
+	
+}
+
+// MARK: - TextField Delegate
+
+extension MainViewController: UITextFieldDelegate {
+	
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		defer {
+			print("secondOperand:", secondOperand)
+		}
+		// Enables deleting a number
+		if string.isEmpty {
+			// Change secondOperand to nil if TextField is empty
+			if textField.text?.count == 1 {
+				secondOperand = nil
+			}
+			return true
+		}
+		// Accepts numbers only
+		if Int(string) != nil {
+			secondOperand = Int(textField.text!)
+			print("secondOperand:", secondOperand)
+			return true
+		}
+		return false
 	}
 	
 }
@@ -66,6 +94,10 @@ extension MainViewController: UICollectionViewDelegate {
 // MARK: - Helper functions
 
 extension MainViewController {
+	
+	private func setupTextField() {
+		mainView.secondOperandTextField.delegate = self
+	}
 	
 	private func setupCollectionView() {
 		mainView.historyCollectionView.delegate = self

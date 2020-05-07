@@ -18,7 +18,7 @@ class MainView: UIView {
 		return label
 	}()
 	
-	private let secondOperandTextField: UITextField = {
+	let secondOperandTextField: UITextField = {
 		let textField = UITextField()
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.placeholder = "Please Enter the Second Operand"
