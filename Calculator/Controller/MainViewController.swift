@@ -31,7 +31,6 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath)
-		cell.backgroundColor = .white
 		return cell
 	}
 	
@@ -52,7 +51,7 @@ extension MainViewController {
 	private func setupCollectionView() {
 		mainView.historyCollectionView.delegate = self
 		mainView.historyCollectionView.dataSource = self
-		mainView.historyCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
+		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
 	}
 	
 }
