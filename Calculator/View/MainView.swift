@@ -94,16 +94,18 @@ class MainView: UIView {
 		return collectionView
 	}()
 	
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		
+		setupUI()
+		setupLayout()
+	}
+	
 }
 
 // MARK: - Helper functions
 
 extension MainView {
-	
-	func setupView() {
-		setupUI()
-		setupLayout()
-	}
 	
 	private func setupUI() {
 		addSubview(resultLabel)
