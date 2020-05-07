@@ -29,6 +29,62 @@ class MainView: UIView {
 		return textField
 	}()
 	
+	private let buttonsStackView: UIStackView = {
+		let stackView = UIStackView()
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.distribution = .equalSpacing
+		return stackView
+	}()
+	
+	private let undoButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("Undo", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let additionButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("+", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let substractionButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("-", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let multiplicationButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("*", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let divisionButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("/", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let equalsButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("=", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
+	private let redoButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setTitle("Redo", for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		return button
+	}()
+	
 }
 
 // MARK: - Helper functions
@@ -43,6 +99,14 @@ extension MainView {
 	private func setupUI() {
 		addSubview(resultLabel)
 		addSubview(secondOperandTextField)
+		addSubview(buttonsStackView)
+		buttonsStackView.addArrangedSubview(undoButton)
+		buttonsStackView.addArrangedSubview(additionButton)
+		buttonsStackView.addArrangedSubview(substractionButton)
+		buttonsStackView.addArrangedSubview(multiplicationButton)
+		buttonsStackView.addArrangedSubview(divisionButton)
+		buttonsStackView.addArrangedSubview(equalsButton)
+		buttonsStackView.addArrangedSubview(redoButton)
 	}
 	
 	private func setupLayout() {
@@ -55,6 +119,12 @@ extension MainView {
 		NSLayoutConstraint.activate([
 			secondOperandTextField.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 20),
 			secondOperandTextField.centerXAnchor.constraint(equalTo: centerXAnchor)
+		])
+		// Buttons StackView
+		NSLayoutConstraint.activate([
+			buttonsStackView.topAnchor.constraint(equalTo: secondOperandTextField.bottomAnchor, constant: 20),
+			buttonsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+			buttonsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20)
 		])
 	}
 	
