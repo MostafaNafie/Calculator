@@ -26,6 +26,7 @@ class MainView: UIView {
 		textField.textAlignment = .center
 		textField.borderStyle = .roundedRect
 		textField.keyboardType = .numberPad
+		textField.isEnabled = false
 		return textField
 	}()
 	
