@@ -72,7 +72,7 @@ class MainView: UIView {
 		return button
 	}()
 	
-	private let equalsButton: UIButton = {
+	let equalsButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("=", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)

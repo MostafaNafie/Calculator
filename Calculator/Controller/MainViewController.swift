@@ -13,7 +13,15 @@ class MainViewController: UIViewController {
 	private lazy var mainView = view as! MainView
 	
 	private var firstOperand = 0
-	private var secondOperand: Int?
+	private var secondOperand: Int? {
+		didSet {
+			if secondOperand != nil {
+				mainView.equalsButton.isEnabled = true
+			} else {
+				mainView.equalsButton.isEnabled = false
+			}
+		}
+	}
 	private var operation: String?
 
 	override func loadView() {
