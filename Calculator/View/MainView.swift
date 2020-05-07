@@ -85,6 +85,15 @@ class MainView: UIView {
 		return button
 	}()
 	
+	let historyCollectionView: UICollectionView = {
+		let layout = UICollectionViewFlowLayout()
+		layout.itemSize = CGSize(width: 50, height: 50)
+		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
+		collectionView.backgroundColor = .black
+		return collectionView
+	}()
+	
 }
 
 // MARK: - Helper functions
@@ -100,6 +109,7 @@ extension MainView {
 		addSubview(resultLabel)
 		addSubview(secondOperandTextField)
 		addSubview(buttonsStackView)
+		
 		buttonsStackView.addArrangedSubview(undoButton)
 		buttonsStackView.addArrangedSubview(additionButton)
 		buttonsStackView.addArrangedSubview(substractionButton)
@@ -107,6 +117,8 @@ extension MainView {
 		buttonsStackView.addArrangedSubview(divisionButton)
 		buttonsStackView.addArrangedSubview(equalsButton)
 		buttonsStackView.addArrangedSubview(redoButton)
+		
+		addSubview(historyCollectionView)
 	}
 	
 	private func setupLayout() {
@@ -126,7 +138,13 @@ extension MainView {
 			buttonsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
 			buttonsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20)
 		])
+		// History CollectionView
+		NSLayoutConstraint.activate([
+			historyCollectionView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
+			historyCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
+		])
 	}
 	
 }
-
