@@ -40,31 +40,32 @@ class MainView: UIView {
 		let button = UIButton(type: .system)
 		button.setTitle("Undo", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		button.isEnabled = false
 		return button
 	}()
 	
-	private let additionButton: UIButton = {
+	let additionButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("+", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
-	private let substractionButton: UIButton = {
+	let substractionButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("-", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
-	private let multiplicationButton: UIButton = {
+	let multiplicationButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("*", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
-	private let divisionButton: UIButton = {
+	let divisionButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("/", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
@@ -75,6 +76,7 @@ class MainView: UIView {
 		let button = UIButton(type: .system)
 		button.setTitle("=", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		button.isEnabled = false
 		return button
 	}()
 	
@@ -82,6 +84,7 @@ class MainView: UIView {
 		let button = UIButton(type: .system)
 		button.setTitle("Redo", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+		button.isEnabled = false
 		return button
 	}()
 	

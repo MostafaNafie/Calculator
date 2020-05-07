@@ -11,6 +11,10 @@ import UIKit
 class MainViewController: UIViewController {
 
 	private lazy var mainView = view as! MainView
+	
+	private var firstOperand = 0
+	private var secondOperand: Int?
+	private var operation: String?
 
 	override func loadView() {
 		view = MainView(frame: CGRect())
@@ -20,8 +24,20 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 
 		setupCollectionView()
+		attachTargetsToButtons()
 	}
 
+}
+
+// MARK: - Actions
+
+extension MainViewController {
+	
+	@objc func operationButtonTapped(sender: UIButton) {
+		operation = sender.titleLabel?.text
+		print("\(operation!) Button Tapped")
+	}
+	
 }
 
 // MARK: - CollectionView DataSource
@@ -55,6 +71,13 @@ extension MainViewController {
 		mainView.historyCollectionView.delegate = self
 		mainView.historyCollectionView.dataSource = self
 		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
+	}
+	
+	private func attachTargetsToButtons() {
+		mainView.additionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		mainView.substractionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		mainView.multiplicationButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		mainView.divisionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
 }
