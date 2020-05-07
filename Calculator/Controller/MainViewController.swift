@@ -22,7 +22,15 @@ class MainViewController: UIViewController {
 			}
 		}
 	}
-	private var operation: String?
+	private var operation: String? {
+		didSet {
+			if operation != nil {
+				mainView.secondOperandTextField.isEnabled = true
+			} else {
+				mainView.secondOperandTextField.isEnabled = false
+			}
+		}
+	}
 
 	override func loadView() {
 		view = MainView(frame: CGRect())
@@ -44,6 +52,8 @@ extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
 		operation = sender.titleLabel?.text
+		sender.backgroundColor = .lightGray
+		sender.tintColor = .white
 		print("\(operation!) Button Tapped")
 	}
 	
@@ -61,6 +71,7 @@ extension MainViewController {
 		mainView.resultLabel.text = "Result = \(result!)"
 		firstOperand = result
 		mainView.secondOperandTextField.text = ""
+		operation = nil
 	}
 	
 }
