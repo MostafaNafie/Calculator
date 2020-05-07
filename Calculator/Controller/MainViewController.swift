@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  Calculator
 //
 //  Created by Mustafa on 7/5/20.
@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
+
+	private lazy var mainView = view as! MainView
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view.
-	}
 
+		mainView.setupView()
+	}
 
 }
 
