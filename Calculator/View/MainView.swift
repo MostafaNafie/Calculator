@@ -10,7 +10,7 @@ import UIKit
 
 class MainView: UIView {
 	
-	private let resultLabel: UILabel = {
+	let resultLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = "Result"

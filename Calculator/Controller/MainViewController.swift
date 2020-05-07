@@ -47,6 +47,22 @@ extension MainViewController {
 		print("\(operation!) Button Tapped")
 	}
 	
+	@objc func equalsButtonTapped(sender: UIButton) {
+		print("Equals Button Tapped")
+		print(operation)
+		var result: Int!
+		switch operation {
+		case "+":
+			result = firstOperand + (secondOperand ?? 0)
+		default:
+			break
+		}
+		
+		mainView.resultLabel.text = "Result = \(result!)"
+		firstOperand = result
+		mainView.secondOperandTextField.text = ""
+	}
+	
 }
 
 // MARK: - TextField Delegate
@@ -67,7 +83,7 @@ extension MainViewController: UITextFieldDelegate {
 		}
 		// Accepts numbers only
 		if Int(string) != nil {
-			secondOperand = Int(textField.text!)
+			secondOperand = Int((textField.text! + string))
 			print("secondOperand:", secondOperand)
 			return true
 		}
@@ -118,6 +134,7 @@ extension MainViewController {
 		mainView.substractionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 		mainView.multiplicationButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 		mainView.divisionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
 }
