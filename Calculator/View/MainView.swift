@@ -96,7 +96,10 @@ class MainView: UIView {
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		
+	}
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 		setupUI()
 		setupLayout()
 	}
@@ -108,6 +111,8 @@ class MainView: UIView {
 extension MainView {
 	
 	private func setupUI() {
+		backgroundColor = .white
+		
 		addSubview(resultLabel)
 		addSubview(secondOperandTextField)
 		addSubview(buttonsStackView)

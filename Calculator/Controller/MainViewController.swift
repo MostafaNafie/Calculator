@@ -12,6 +12,10 @@ class MainViewController: UIViewController {
 
 	private lazy var mainView = view as! MainView
 
+	override func loadView() {
+		view = MainView(frame: CGRect())
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

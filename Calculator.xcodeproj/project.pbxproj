@@ -10,9 +10,7 @@
 		45A42DB4246496AC00ACED90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DB3246496AC00ACED90 /* AppDelegate.swift */; };
 		45A42DB6246496AC00ACED90 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DB5246496AC00ACED90 /* SceneDelegate.swift */; };
 		45A42DB8246496AC00ACED90 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DB7246496AC00ACED90 /* MainViewController.swift */; };
-		45A42DBB246496AC00ACED90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45A42DB9246496AC00ACED90 /* Main.storyboard */; };
 		45A42DBD246496B000ACED90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45A42DBC246496B000ACED90 /* Assets.xcassets */; };
-		45A42DC0246496B000ACED90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45A42DBE246496B000ACED90 /* LaunchScreen.storyboard */; };
 		45A42DCB24649A1600ACED90 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCA24649A1600ACED90 /* MainView.swift */; };
 		45A42DCD2464AE0300ACED90 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -22,9 +20,7 @@
 		45A42DB3246496AC00ACED90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		45A42DB5246496AC00ACED90 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		45A42DB7246496AC00ACED90 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		45A42DBA246496AC00ACED90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45A42DBC246496B000ACED90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		45A42DBF246496B000ACED90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45A42DC1246496B000ACED90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45A42DCA24649A1600ACED90 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -89,8 +85,6 @@
 		45A42DC92464982D00ACED90 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				45A42DB9246496AC00ACED90 /* Main.storyboard */,
-				45A42DBE246496B000ACED90 /* LaunchScreen.storyboard */,
 				45A42DCA24649A1600ACED90 /* MainView.swift */,
 				45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */,
 			);
@@ -155,9 +149,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45A42DC0246496B000ACED90 /* LaunchScreen.storyboard in Resources */,
 				45A42DBD246496B000ACED90 /* Assets.xcassets in Resources */,
-				45A42DBB246496AC00ACED90 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,25 +169,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		45A42DB9246496AC00ACED90 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				45A42DBA246496AC00ACED90 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		45A42DBE246496B000ACED90 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				45A42DBF246496B000ACED90 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		45A42DC2246496B000ACED90 /* Debug */ = {
