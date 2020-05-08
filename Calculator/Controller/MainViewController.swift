@@ -45,6 +45,8 @@ class MainViewController: UIViewController {
 		}
 	}
 	
+	private var undoPointer = -1
+	
 	private var redoOperations: [(operation: String, operand: Int)]! {
 		didSet {
 			print("Redo: \(redoOperations!)")
@@ -86,6 +88,12 @@ extension MainViewController {
 		switch operation {
 		case "+":
 			result = firstOperand + (secondOperand ?? 0)
+		case "-":
+			result = firstOperand - (secondOperand ?? 0)
+		case "*":
+			result = firstOperand * (secondOperand ?? 0)
+		case "/":
+			result = firstOperand / (secondOperand ?? 0)
 		default:
 			break
 		}
@@ -95,6 +103,7 @@ extension MainViewController {
 		} else {
 			operationsHistory = [(operation!, secondOperand!)]
 		}
+		undoPointer = operationsHistory.count - 1
 		
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 		
@@ -198,20 +207,36 @@ extension MainViewController {
 	}
 	
 	private func undoOperation(at index: Int) {
-		let operation = operationsHistory[index]
-		// TODO: Use switch statement
-		if operation.operation == "+" {
-			mainView.resultLabel.text = "Result = \(firstOperand - operation.operand)"
-			firstOperand = firstOperand - operation.operand
+		let operation = operationsHistory[undoPointer]
+		var result: Int!
+		switch operation.operation {
+		case "+":
+			result = firstOperand - operation.operand
+			operationsHistory += [("-", operation.operand)]
+		case "-":
+			result = firstOperand + operation.operand
+			operationsHistory += [("+", operation.operand)]
+		case "*":
+			result = firstOperand / operation.operand
+			operationsHistory += [("/", operation.operand)]
+		case "/":
+			result = firstOperand * operation.operand
+			operationsHistory += [("*", operation.operand)]
+		default:
+			break
 		}
+		
+		firstOperand = result
+		mainView.resultLabel.text = "Result = \(result!)"
 		
 		if redoOperations != nil {
-			redoOperations += [operationsHistory.remove(at: index)]
+			redoOperations += [operation]
 		} else {
-			redoOperations = [operationsHistory.remove(at: index)]
+			redoOperations = [operation]
 		}
 		
-		mainView.historyCollectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+		undoPointer -= 1
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 	}
 	
 	private func redoOperation() {
@@ -228,6 +253,7 @@ extension MainViewController {
 			operationsHistory = [operation]
 		}
 		
+		undoPointer = operationsHistory.count - 1
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 	}
 	
