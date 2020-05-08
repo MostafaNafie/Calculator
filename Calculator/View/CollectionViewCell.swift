@@ -9,8 +9,8 @@
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
-	
-	private let resultLabel: UILabel = {
+		
+	let resultLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = "+5"

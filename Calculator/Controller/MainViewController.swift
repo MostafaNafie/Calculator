@@ -34,6 +34,8 @@ class MainViewController: UIViewController {
 			}
 		}
 	}
+	
+	private var operationsHistory: [String]!
 
 	override func loadView() {
 		view = MainView(frame: CGRect())
@@ -68,6 +70,14 @@ extension MainViewController {
 		default:
 			break
 		}
+		
+		if operationsHistory != nil {
+			operationsHistory += ["\(operation!)\(secondOperand!)"]
+		} else {
+			operationsHistory = ["\(operation!)\(secondOperand!)"]
+		}
+		
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 		
 		mainView.resultLabel.text = "Result = \(result!)"
 		firstOperand = result
@@ -110,11 +120,13 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 5
+		guard operationsHistory != nil else {return 0}
+		return operationsHistory.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath)
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as! CollectionViewCell
+		cell.resultLabel.text = operationsHistory[indexPath.item]
 		return cell
 	}
 	
