@@ -14,8 +14,8 @@ class MainViewController: UIViewController {
 
 	private lazy var mainView = view as! MainView
 	
-	private var firstOperand = 0
-	private var secondOperand: Int? {
+	var firstOperand = 0
+	var secondOperand: Int? {
 		didSet {
 			if secondOperand != nil {
 				mainView.equalsButton.isEnabled = true
@@ -61,6 +61,8 @@ class MainViewController: UIViewController {
 	}
 
 	override func loadView() {
+		super.loadView()
+		
 		view = MainView(frame: CGRect())
 	}
 	
@@ -70,12 +72,6 @@ class MainViewController: UIViewController {
 		setupTextField()
 		setupCollectionView()
 		attachTargetsToButtons()
-	}
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-		test()
 	}
 
 }
@@ -266,44 +262,6 @@ extension MainViewController {
 		mainView.secondOperandTextField.text = ""
 		selectedOperator = nil
 		secondOperand = nil
-	}
-	
-	private func test() {
-		// Add 3
-		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
-		secondOperand = 3
-		mainView.equalsButton.sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 3")
-		// Add 2
-		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
-		secondOperand = 2
-		mainView.equalsButton.sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 5")
-		// Multiply by 5
-		mainView.operationsButtons["*"]!.sendActions(for: .touchUpInside)
-		secondOperand = 5
-		mainView.equalsButton.sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 25")
-		// Undo Twice
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 3")
-		// Redo
-		mainView.historyButtons[1].sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 5")
-		// Add 3
-		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
-		secondOperand = 3
-		mainView.equalsButton.sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 8")
-		// Undo 4 times
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		mainView.historyButtons[0].sendActions(for: .touchUpInside)
-		assert(mainView.resultLabel.text == "Result = 25")
-		
-		print("Test case passed!")
 	}
 	
 }
