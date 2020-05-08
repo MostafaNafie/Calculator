@@ -181,4 +181,8 @@ extension MainView {
 		undoButton.isEnabled = isEnabled
 	}
 	
+	func toggleRedoButton(isEnabled: Bool) {
+		redoButton.isEnabled = isEnabled
+	}
+	
 }

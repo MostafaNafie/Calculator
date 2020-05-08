@@ -44,6 +44,17 @@ class MainViewController: UIViewController {
 			}
 		}
 	}
+	
+	private var redoOperations: [String]! {
+		didSet {
+			print("Redo: \(redoOperations!)")
+			if redoOperations.isEmpty {
+				mainView.toggleRedoButton(isEnabled: false)
+			} else {
+				mainView.toggleRedoButton(isEnabled: true)
+			}
+		}
+	}
 
 	override func loadView() {
 		view = MainView(frame: CGRect())
@@ -182,7 +193,13 @@ extension MainViewController {
 			mainView.resultLabel.text = "Result = \(firstOperand - secondOperand!)"
 			firstOperand = firstOperand - secondOperand!
 		}
-		operationsHistory.remove(at: indexPath.item)
+		
+		if redoOperations != nil {
+			redoOperations += [operationsHistory.remove(at: indexPath.item)]
+		} else {
+			redoOperations = [operationsHistory.remove(at: indexPath.item)]
+		}
+
 		collectionView.deleteItems(at: [indexPath])
 	}
 	
