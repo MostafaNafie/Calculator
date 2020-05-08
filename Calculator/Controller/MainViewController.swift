@@ -212,7 +212,7 @@ extension MainViewController {
 	}
 	
 	private func updateResult(result: Int) {
-		mainView.resultLabel.text = "\(Constants.Strings.result.rawValue) = \(result)"
+		mainView.showResult(result)
 		firstOperand = result
 		mainView.secondOperandTextField.text = ""
 		selectedOperator = .none

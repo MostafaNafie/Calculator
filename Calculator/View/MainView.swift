@@ -12,7 +12,7 @@ class MainView: UIView {
 	
 	// MARK: - Views
 
-	lazy var resultLabel = setupLabel()
+	private lazy var resultLabel = setupLabel()
 	lazy var secondOperandTextField = setupTextField()
 	private lazy var buttonsStackView = setupStackView()
 	lazy var operatorButtons = setupButtons()
@@ -52,6 +52,10 @@ extension MainView {
 	
 	func toggleButton(buttonName: Constants.Operators, isEnabled: Bool) {
 		operatorButtons[buttonName]!.isEnabled = isEnabled
+	}
+	
+	func showResult(_ result: Int) {
+		resultLabel.text = "\(Constants.Strings.result.rawValue) = \(result)"
 	}
 	
 }
