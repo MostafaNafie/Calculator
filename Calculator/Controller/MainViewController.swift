@@ -134,64 +134,16 @@ extension MainViewController: UICollectionViewDelegate {
 	
 }
 
-// MARK: - Helper functions
+// MARK: - Operations
 
 extension MainViewController {
 	
-	private func setupTextField() {
-		mainView.secondOperandTextField.delegate = self
-	}
-	
-	private func setupCollectionView() {
-		mainView.historyCollectionView.delegate = self
-		mainView.historyCollectionView.dataSource = self
-		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
-	}
-	
-	private func attachTargetsToButtons() {
-		for (buttonName, button) in mainView.operatorButtons {
-			if buttonName == .redo || buttonName == .undo {
-				button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
-			} else if buttonName == .equal {
-				button.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
-			} else {
-				button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
-			}
-		}
-	}
-	
 	private func undoOperation(at index: Int) {
 		let operation = operationsHistory[undoPointer]
-		var result: Int!
-		switch operation.operator {
-		case .addition:
-			result = firstOperand - operation.secondOperand
-			operationsHistory += [(.subtraction, operation.secondOperand)]
-		case .subtraction:
-			result = firstOperand + operation.secondOperand
-			operationsHistory += [(.addition, operation.secondOperand)]
-		case .multiplication:
-			result = firstOperand / operation.secondOperand
-			operationsHistory += [(.division, operation.secondOperand)]
-		case .division:
-			result = firstOperand * operation.secondOperand
-			operationsHistory += [(.multiplication, operation.secondOperand)]
-		default:
-			break
-		}
-		
-		print("Undo Performed:", firstOperand, operation.operator.rawValue, operation.secondOperand, "=", result!, "\n")
-
+		let reversedOperation = reverseOperation(operation)
+		let result = performOperation(reversedOperation)
 		updateResult(result: result)
-		
-		if redoOperations != nil {
-			redoOperations += [operation]
-		} else {
-			redoOperations = [operation]
-		}
-		
-		undoPointer -= 1
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
+		updateUndoHistory(operation: operation)
 	}
 	
 	private func redoOperation() {
@@ -221,6 +173,24 @@ extension MainViewController {
 		return result
 	}
 	
+	private func reverseOperation(_ operation: Operation) -> Operation {
+		var operation = operation
+		switch operation.operator {
+		case .addition:
+			operation.operator = .subtraction
+		case .subtraction:
+			operation.operator = .addition
+		case .multiplication:
+			operation.operator = .division
+		case .division:
+			operation.operator = .multiplication
+		default:
+			break
+		}
+		operationsHistory += [operation]
+		return operation
+	}
+	
 	private func updateHistory(operation: Operation) {
 		if operationsHistory != nil {
 			operationsHistory += [operation]
@@ -228,6 +198,16 @@ extension MainViewController {
 			operationsHistory = [operation]
 		}
 		undoPointer = operationsHistory.count - 1
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
+	}
+	
+	private func updateUndoHistory(operation: Operation) {
+		if redoOperations != nil {
+			redoOperations += [operation]
+		} else {
+			redoOperations = [operation]
+		}
+		undoPointer -= 1
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 	}
 	
@@ -239,7 +219,11 @@ extension MainViewController {
 		secondOperand = nil
 	}
 	
-	// Bindings
+}
+
+// MARK: - Bindings
+
+extension MainViewController {
 	
 	private func selectedOperatorChanged(oldValue: Constants.Operators) {
 		if selectedOperator != .none {
@@ -263,9 +247,38 @@ extension MainViewController {
 	}
 	
 	private func redoOperationsChanged() {
-//		print("Redo Operations: \(redoOperations!)")
+		//		print("Redo Operations: \(redoOperations!)")
 		let isEnabled = !(redoOperations.isEmpty)
 		mainView.toggleButton(buttonName: .redo, isEnabled: isEnabled)
+	}
+	
+}
+
+
+// MARK: - Helper functions
+
+extension MainViewController {
+	
+	private func setupTextField() {
+		mainView.secondOperandTextField.delegate = self
+	}
+	
+	private func setupCollectionView() {
+		mainView.historyCollectionView.delegate = self
+		mainView.historyCollectionView.dataSource = self
+		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
+	}
+	
+	private func attachTargetsToButtons() {
+		for (buttonName, button) in mainView.operatorButtons {
+			if buttonName == .redo || buttonName == .undo {
+				button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
+			} else if buttonName == .equal {
+				button.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
+			} else {
+				button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+			}
+		}
 	}
 	
 }
