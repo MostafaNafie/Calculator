@@ -25,8 +25,8 @@ class CalculatorTests: XCTestCase {
 		subButton.titleLabel?.text = Constants.Operators.subtraction.rawValue
 		multButton.titleLabel?.text = Constants.Operators.multiplication.rawValue
 		divButton.titleLabel?.text = Constants.Operators.division.rawValue
-		undoButton.titleLabel?.text = "Undo"
-		redoButton.titleLabel?.text = "Redo"
+		undoButton.titleLabel?.text = Constants.Operators.undo.rawValue
+		redoButton.titleLabel?.text = Constants.Operators.redo.rawValue
     }
 
     override func tearDownWithError() throws {
