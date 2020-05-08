@@ -49,7 +49,7 @@ class MainViewController: UIViewController {
 	
 	private var redoOperations: [(operation: String, operand: Int)]! {
 		didSet {
-			print("Redo: \(redoOperations!)")
+//			print("Redo Operations: \(redoOperations!)")
 			if redoOperations.isEmpty {
 				mainView.toggleRedoButton(isEnabled: false)
 			} else {
@@ -69,6 +69,12 @@ class MainViewController: UIViewController {
 		setupCollectionView()
 		attachTargetsToButtons()
 	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		test()
+	}
 
 }
 
@@ -78,25 +84,26 @@ extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
 		operation = sender.titleLabel?.text
-		print("\(operation!) Button Tapped")
+		print("\(operation!) Button Tapped!")
 	}
 	
 	@objc func equalsButtonTapped(sender: UIButton) {
-		print("Equals Button Tapped")
-		print(operation)
+		print("Equals Button Tapped!")
 		var result: Int!
 		switch operation {
 		case "+":
-			result = firstOperand + (secondOperand ?? 0)
+			result = firstOperand + (secondOperand!)
 		case "-":
-			result = firstOperand - (secondOperand ?? 0)
+			result = firstOperand - (secondOperand!)
 		case "*":
-			result = firstOperand * (secondOperand ?? 0)
+			result = firstOperand * (secondOperand!)
 		case "/":
-			result = firstOperand / (secondOperand ?? 0)
+			result = firstOperand / (secondOperand!)
 		default:
 			break
 		}
+		
+		print("Operation Performed:", firstOperand, operation!, secondOperand!, "=", result!, "\n")
 		
 		if operationsHistory != nil {
 			operationsHistory += [(operation!, secondOperand!)]
@@ -116,12 +123,12 @@ extension MainViewController {
 	
 	@objc func historyButtonTapped(sender: UIButton) {
 		let action = sender.titleLabel?.text
+		print("\(action!) Button Tapped!")
 		if action == "Undo" {
 			undoOperation(at: operationsHistory.count - 1)
 		} else {
 			redoOperation()
 		}
-		print("\(action!) Button Tapped")
 	}
 	
 }
@@ -226,6 +233,8 @@ extension MainViewController {
 			break
 		}
 		
+		print("Undo Performed:", firstOperand, operation.operation, operation.operand, "=", result!, "\n")
+
 		firstOperand = result
 		mainView.resultLabel.text = "Result = \(result!)"
 		
@@ -255,6 +264,8 @@ extension MainViewController {
 			break
 		}
 		
+		print("Redo Performed:", firstOperand, operation.operation, operation.operand, "=", result!, "\n")
+		
 		firstOperand = result
 		mainView.resultLabel.text = "Result = \(result!)"
 		
@@ -266,6 +277,44 @@ extension MainViewController {
 		
 		undoPointer = operationsHistory.count - 1
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
+	}
+	
+	func test() {
+		// Add 3
+		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
+		secondOperand = 3
+		mainView.equalsButton.sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 3")
+		// Add 2
+		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
+		secondOperand = 2
+		mainView.equalsButton.sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 5")
+		// Multiply by 5
+		mainView.operationsButtons["*"]!.sendActions(for: .touchUpInside)
+		secondOperand = 5
+		mainView.equalsButton.sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 25")
+		// Undo Twice
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 3")
+		// Redo
+		mainView.historyButtons[1].sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 5")
+		// Add 3
+		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
+		secondOperand = 3
+		mainView.equalsButton.sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 8")
+		// Undo 4 times
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		mainView.historyButtons[0].sendActions(for: .touchUpInside)
+		assert(mainView.resultLabel.text == "Result = 25")
+		
+		print("Test case passed!")
 	}
 	
 }
