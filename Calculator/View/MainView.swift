@@ -177,4 +177,8 @@ extension MainView {
 		}
 	}
 	
+	func toggleUndoButton(isEnabled: Bool) {
+		undoButton.isEnabled = isEnabled
+	}
+	
 }

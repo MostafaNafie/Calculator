@@ -35,7 +35,15 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var operationsHistory: [String]!
+	private var operationsHistory: [String]! {
+		didSet {
+			if operationsHistory.isEmpty {
+				mainView.toggleUndoButton(isEnabled: false)
+			} else {
+				mainView.toggleUndoButton(isEnabled: true)
+			}
+		}
+	}
 
 	override func loadView() {
 		view = MainView(frame: CGRect())
