@@ -105,6 +105,16 @@ extension MainViewController {
 		secondOperand = nil
 	}
 	
+	@objc func historyButtonTapped(sender: UIButton) {
+		let action = sender.titleLabel?.text
+		if action == "Undo" {
+			undoOperation(at: operationsHistory.count - 1)
+		} else {
+			// Redo
+		}
+		print("\(action!) Button Tapped")
+	}
+	
 }
 
 // MARK: - TextField Delegate
@@ -151,7 +161,6 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		undoOperation(at: indexPath.item)
-		collectionView.deleteItems(at: [indexPath])
 	}
 	
 }
@@ -182,6 +191,9 @@ extension MainViewController {
 		for (_, button) in mainView.operationsButtons {
 			button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 		}
+		for button in mainView.historyButtons {
+			button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
+		}
 		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
@@ -198,6 +210,8 @@ extension MainViewController {
 		} else {
 			redoOperations = [operationsHistory.remove(at: index)]
 		}
+		
+		mainView.historyCollectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
 	}
 	
 }

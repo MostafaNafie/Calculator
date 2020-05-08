@@ -94,6 +94,8 @@ class MainView: UIView {
 								  "*": multiplicationButton,
 								  "/": divisionButton]
 	
+	lazy var historyButtons = [undoButton, redoButton]
+	
 	let historyCollectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.itemSize = CGSize(width: 50, height: 50)
