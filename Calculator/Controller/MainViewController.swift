@@ -12,53 +12,26 @@ typealias Operation = (operator: String, secondOperand: Int)
 
 class MainViewController: UIViewController {
 
+	// MARK: - Properties
+
 	private lazy var mainView = view as! MainView
 	
 	var firstOperand = 0
 	var secondOperand: Int? {
-		didSet {
-			if secondOperand != nil {
-				mainView.equalsButton.isEnabled = true
-			} else {
-				mainView.equalsButton.isEnabled = false
-			}
-		}
+		didSet { secondOperandChanged() }
 	}
 	private var selectedOperator: String? {
-		didSet {
-			if let operation = selectedOperator {
-				mainView.deselectButton(operation: oldValue ?? "")
-				mainView.selectButton(operation: operation)
-				mainView.secondOperandTextField.isEnabled = true
-			} else {
-				mainView.deselectButton(operation: oldValue ?? "")
-				mainView.secondOperandTextField.isEnabled = false
-			}
-		}
+		didSet { selectedOperatorChanged(oldValue: oldValue) }
 	}
-	
-	private var operationsHistory: [Operation]!
-	
 	private var undoPointer = -1 {
-		didSet {
-			if undoPointer == -1 {
-				mainView.toggleUndoButton(isEnabled: false)
-			} else {
-				mainView.toggleUndoButton(isEnabled: true)
-			}
-		}
+		didSet { undoPointerChanged() }
+	}
+	private var operationsHistory: [Operation]!
+	private var redoOperations: [Operation]! {
+		didSet { redoOperationsChanged() }
 	}
 	
-	private var redoOperations: [Operation]! {
-		didSet {
-//			print("Redo Operations: \(redoOperations!)")
-			if redoOperations.isEmpty {
-				mainView.toggleRedoButton(isEnabled: false)
-			} else {
-				mainView.toggleRedoButton(isEnabled: true)
-			}
-		}
-	}
+	// MARK: - View Lifecycle
 
 	override func loadView() {
 		super.loadView()
@@ -262,6 +235,44 @@ extension MainViewController {
 		mainView.secondOperandTextField.text = ""
 		selectedOperator = nil
 		secondOperand = nil
+	}
+	
+	// Bindings
+	
+	private func selectedOperatorChanged(oldValue: String?) {
+		if let operation = selectedOperator {
+			mainView.deselectButton(operation: oldValue ?? "")
+			mainView.selectButton(operation: operation)
+			mainView.secondOperandTextField.isEnabled = true
+		} else {
+			mainView.deselectButton(operation: oldValue ?? "")
+			mainView.secondOperandTextField.isEnabled = false
+		}
+	}
+	
+	private func undoPointerChanged() {
+		if undoPointer == -1 {
+			mainView.toggleUndoButton(isEnabled: false)
+		} else {
+			mainView.toggleUndoButton(isEnabled: true)
+		}
+	}
+	
+	private func secondOperandChanged() {
+		if secondOperand != nil {
+			mainView.equalsButton.isEnabled = true
+		} else {
+			mainView.equalsButton.isEnabled = false
+		}
+	}
+	
+	private func redoOperationsChanged() {
+		//			print("Redo Operations: \(redoOperations!)")
+		if redoOperations.isEmpty {
+			mainView.toggleRedoButton(isEnabled: false)
+		} else {
+			mainView.toggleRedoButton(isEnabled: true)
+		}
 	}
 	
 }
