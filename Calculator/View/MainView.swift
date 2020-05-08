@@ -89,6 +89,11 @@ class MainView: UIView {
 		return button
 	}()
 	
+	lazy var operationsButtons = ["+": additionButton,
+								  "-": substractionButton,
+								  "*": multiplicationButton,
+								  "/": divisionButton]
+	
 	let historyCollectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.itemSize = CGSize(width: 50, height: 50)
@@ -156,6 +161,20 @@ extension MainView {
 			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
 			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
 		])
+	}
+	
+	func selectButton(operation: String) {
+		if let button = operationsButtons[operation] {
+			button.backgroundColor = .lightGray
+			button.tintColor = .white
+		}
+	}
+	
+	func deselectButton(operation: String) {
+		if let button = operationsButtons[operation] {
+			button.backgroundColor = nil
+			button.tintColor = .systemBlue
+		}
 	}
 	
 }

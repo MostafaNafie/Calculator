@@ -24,9 +24,12 @@ class MainViewController: UIViewController {
 	}
 	private var operation: String? {
 		didSet {
-			if operation != nil {
+			if let operation = operation {
+				mainView.deselectButton(operation: oldValue ?? "")
+				mainView.selectButton(operation: operation)
 				mainView.secondOperandTextField.isEnabled = true
 			} else {
+				mainView.deselectButton(operation: oldValue ?? "")
 				mainView.secondOperandTextField.isEnabled = false
 			}
 		}
@@ -52,8 +55,6 @@ extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
 		operation = sender.titleLabel?.text
-		sender.backgroundColor = .lightGray
-		sender.tintColor = .white
 		print("\(operation!) Button Tapped")
 	}
 	
@@ -72,6 +73,7 @@ extension MainViewController {
 		firstOperand = result
 		mainView.secondOperandTextField.text = ""
 		operation = nil
+		secondOperand = nil
 	}
 	
 }
