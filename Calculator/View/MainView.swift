@@ -10,59 +10,15 @@ import UIKit
 
 class MainView: UIView {
 	
-	let resultLabel: UILabel = {
-		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = Constants.Strings.result.rawValue
-		label.font = .systemFont(ofSize: Constants.resultfontSize)
-		return label
-	}()
-	
-	let secondOperandTextField: UITextField = {
-		let textField = UITextField()
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		textField.placeholder = Constants.Strings.secondOperandPlaceholder.rawValue
-		textField.font = .systemFont(ofSize: Constants.fontSize)
-		textField.textAlignment = .center
-		textField.borderStyle = .roundedRect
-		textField.keyboardType = .numberPad
-		textField.isEnabled = false
-		return textField
-	}()
-	
-	private let buttonsStackView: UIStackView = {
-		let stackView = UIStackView()
-		stackView.translatesAutoresizingMaskIntoConstraints = false
-		stackView.distribution = .equalSpacing
-		return stackView
-	}()
-	
-	var operatorButtons: [Constants.Operators: UIButton] = {
-		var dict = [Constants.Operators.none: UIButton()]
-		let operations: [Constants.Operators] = [.undo, .addition, .subtraction, .multiplication, .division, .equal, .redo]
-		for operation in operations {
-			let button: UIButton = {
-				let button = UIButton(type: .system)
-				button.setTitle(operation.rawValue, for: .normal)
-				button.titleLabel?.font = .boldSystemFont(ofSize: Constants.fontSize)
-				if operation == .undo || operation == .equal || operation == .redo {
-					button.isEnabled = false
-				}
-				return button
-			}()
-			dict[operation] = button
-		}
-		return dict
-	}()
+	// MARK: - Views
 
-	let historyCollectionView: UICollectionView = {
-		let layout = UICollectionViewFlowLayout()
-		layout.itemSize = CGSize(width: 50, height: 50)
-		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.backgroundColor = .black
-		return collectionView
-	}()
+	lazy var resultLabel = setupLabel()
+	lazy var secondOperandTextField = setupTextField()
+	private lazy var buttonsStackView = setupStackView()
+	lazy var operatorButtons = setupButtons()
+	lazy var historyCollectionView = setupCollectionView()
+	
+	// MARK: - Initializers
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
@@ -76,26 +32,43 @@ class MainView: UIView {
 	
 }
 
+// MARK: - Encapsulation
+
+extension MainView {
+	
+	func selectButton(operation: Constants.Operators) {
+		if let button = operatorButtons[operation] {
+			button.backgroundColor = .lightGray
+			button.tintColor = .white
+		}
+	}
+	
+	func deselectButton(operation: Constants.Operators) {
+		if let button = operatorButtons[operation] {
+			button.backgroundColor = nil
+			button.tintColor = .systemBlue
+		}
+	}
+	
+	func toggleButton(buttonName: Constants.Operators, isEnabled: Bool) {
+		operatorButtons[buttonName]!.isEnabled = isEnabled
+	}
+	
+}
+
+
 // MARK: - Helper functions
 
 extension MainView {
 	
 	private func setupUI() {
 		backgroundColor = .white
-		
-		addSubview(resultLabel)
-		addSubview(secondOperandTextField)
-		addSubview(buttonsStackView)
-		
-		buttonsStackView.addArrangedSubview(operatorButtons[.undo]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.addition]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.subtraction]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.multiplication]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.division]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.equal]!)
-		buttonsStackView.addArrangedSubview(operatorButtons[.redo]!)
-		
-		addSubview(historyCollectionView)
+		// Views
+		[resultLabel, secondOperandTextField, buttonsStackView, historyCollectionView].forEach {addSubview($0)}
+		// Buttons
+		[operatorButtons[.undo]!, operatorButtons[.addition]!, operatorButtons[.subtraction]!,
+		 operatorButtons[.multiplication]!, operatorButtons[.division]!, operatorButtons[.equal]!,
+		 operatorButtons[.redo]!].forEach {buttonsStackView.addArrangedSubview($0)}
 	}
 	
 	private func setupLayout() {
@@ -124,22 +97,58 @@ extension MainView {
 		])
 	}
 	
-	func selectButton(operation: Constants.Operators) {
-		if let button = operatorButtons[operation] {
-			button.backgroundColor = .lightGray
-			button.tintColor = .white
-		}
+	private func setupLabel() -> UILabel {
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.text = Constants.Strings.result.rawValue
+		label.font = .systemFont(ofSize: Constants.resultfontSize)
+		return label
 	}
 	
-	func deselectButton(operation: Constants.Operators) {
-		if let button = operatorButtons[operation] {
-			button.backgroundColor = nil
-			button.tintColor = .systemBlue
-		}
+	private func setupTextField() -> UITextField {
+		let textField = UITextField()
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.placeholder = Constants.Strings.secondOperandPlaceholder.rawValue
+		textField.font = .systemFont(ofSize: Constants.fontSize)
+		textField.textAlignment = .center
+		textField.borderStyle = .roundedRect
+		textField.keyboardType = .numberPad
+		textField.isEnabled = false
+		return textField
 	}
 	
-	func toggleButton(buttonName: Constants.Operators, isEnabled: Bool) {
-		operatorButtons[buttonName]!.isEnabled = isEnabled
+	private func setupStackView() -> UIStackView {
+		let stackView = UIStackView()
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.distribution = .equalSpacing
+		return stackView
+	}
+	
+	private func setupButtons() -> [Constants.Operators: UIButton] {
+		var dict = [Constants.Operators.none: UIButton()]
+		let operations: [Constants.Operators] = [.undo, .addition, .subtraction, .multiplication, .division, .equal, .redo]
+		for operation in operations {
+			let button: UIButton = {
+				let button = UIButton(type: .system)
+				button.setTitle(operation.rawValue, for: .normal)
+				button.titleLabel?.font = .boldSystemFont(ofSize: Constants.fontSize)
+				if operation == .undo || operation == .equal || operation == .redo {
+					button.isEnabled = false
+				}
+				return button
+			}()
+			dict[operation] = button
+		}
+		return dict
+	}
+	
+	private func setupCollectionView() -> UICollectionView {
+		let layout = UICollectionViewFlowLayout()
+		layout.itemSize = CGSize(width: 50, height: 50)
+		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
+		collectionView.backgroundColor = .black
+		return collectionView
 	}
 	
 }
