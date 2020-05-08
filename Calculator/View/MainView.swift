@@ -47,28 +47,28 @@ class MainView: UIView {
 	
 	let additionButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.setTitle("+", for: .normal)
+		button.setTitle(Constants.Operators.addition.rawValue, for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
 	let subtractionButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.setTitle("-", for: .normal)
+		button.setTitle(Constants.Operators.subtraction.rawValue, for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
 	let multiplicationButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.setTitle("*", for: .normal)
+		button.setTitle(Constants.Operators.multiplication.rawValue, for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
 	
 	let divisionButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.setTitle("/", for: .normal)
+		button.setTitle(Constants.Operators.division.rawValue, for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
 		return button
 	}()
@@ -89,10 +89,10 @@ class MainView: UIView {
 		return button
 	}()
 	
-	lazy var operationsButtons = ["+": additionButton,
-								  "-": subtractionButton,
-								  "*": multiplicationButton,
-								  "/": divisionButton]
+	lazy var operationsButtons: [Constants.Operators: UIButton] = [.addition: additionButton,
+																   .subtraction: subtractionButton,
+																   .multiplication: multiplicationButton,
+																   .division: divisionButton]
 	
 	lazy var historyButtons = [undoButton, redoButton]
 	
@@ -165,14 +165,14 @@ extension MainView {
 		])
 	}
 	
-	func selectButton(operation: String) {
+	func selectButton(operation: Constants.Operators) {
 		if let button = operationsButtons[operation] {
 			button.backgroundColor = .lightGray
 			button.tintColor = .white
 		}
 	}
 	
-	func deselectButton(operation: String) {
+	func deselectButton(operation: Constants.Operators) {
 		if let button = operationsButtons[operation] {
 			button.backgroundColor = nil
 			button.tintColor = .systemBlue

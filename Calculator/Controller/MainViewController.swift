@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias Operation = (operator: String, secondOperand: Int)
+typealias Operation = (operator: Constants.Operators, secondOperand: Int)
 
 class MainViewController: UIViewController {
 
@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
 	var secondOperand: Int? {
 		didSet { secondOperandChanged() }
 	}
-	private var selectedOperator: String? {
+	private var selectedOperator: Constants.Operators = .none {
 		didSet { selectedOperatorChanged(oldValue: oldValue) }
 	}
 	private var undoPointer = -1 {
@@ -54,13 +54,13 @@ class MainViewController: UIViewController {
 extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
-		selectedOperator = sender.titleLabel?.text
-		print("\(selectedOperator!) Button Tapped!")
+		selectedOperator = Constants.Operators(rawValue: (sender.titleLabel?.text)!)!
+		print("\(selectedOperator) Button Tapped!")
 	}
 	
 	@objc func equalsButtonTapped(sender: UIButton) {
 		print("Equals Button Tapped!")
-		let operation = (operator: selectedOperator!, secondOperand: secondOperand!)
+		let operation = (operator: selectedOperator, secondOperand: secondOperand!)
 		let result = performOperation(operation: operation)
 		updateResult(result: result)
 		updateHistory(operation: operation)
@@ -116,7 +116,7 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as! CollectionViewCell
-		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operator)\(operationsHistory[indexPath.item].secondOperand)"
+		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operator.rawValue)\(operationsHistory[indexPath.item].secondOperand)"
 		return cell
 	}
 	
@@ -162,23 +162,23 @@ extension MainViewController {
 		let operation = operationsHistory[undoPointer]
 		var result: Int!
 		switch operation.operator {
-		case "+":
+		case .addition:
 			result = firstOperand - operation.secondOperand
-			operationsHistory += [("-", operation.secondOperand)]
-		case "-":
+			operationsHistory += [(.subtraction, operation.secondOperand)]
+		case .subtraction:
 			result = firstOperand + operation.secondOperand
-			operationsHistory += [("+", operation.secondOperand)]
-		case "*":
+			operationsHistory += [(.addition, operation.secondOperand)]
+		case .multiplication:
 			result = firstOperand / operation.secondOperand
-			operationsHistory += [("/", operation.secondOperand)]
-		case "/":
+			operationsHistory += [(.division, operation.secondOperand)]
+		case .division:
 			result = firstOperand * operation.secondOperand
-			operationsHistory += [("*", operation.secondOperand)]
+			operationsHistory += [(.multiplication, operation.secondOperand)]
 		default:
 			break
 		}
 		
-		print("Undo Performed:", firstOperand, operation.operator, operation.secondOperand, "=", result!, "\n")
+		print("Undo Performed:", firstOperand, operation.operator.rawValue, operation.secondOperand, "=", result!, "\n")
 
 		updateResult(result: result)
 		
@@ -202,19 +202,19 @@ extension MainViewController {
 	private func performOperation(operation: Operation) -> Int {
 		var result = 0
 		switch operation.operator {
-		case "+":
+		case .addition:
 			result = firstOperand + operation.secondOperand
-		case "-":
+		case .subtraction:
 			result = firstOperand - operation.secondOperand
-		case "*":
+		case .multiplication:
 			result = firstOperand * operation.secondOperand
-		case "/":
+		case .division:
 			result = firstOperand / operation.secondOperand
 		default:
 			break
 		}
 		
-		print("Operation Performed:", firstOperand, operation.operator, operation.secondOperand, "=", result, "\n")
+		print("Operation Performed:", firstOperand, operation.operator.rawValue, operation.secondOperand, "=", result, "\n")
 		
 		return result
 	}
@@ -233,19 +233,19 @@ extension MainViewController {
 		mainView.resultLabel.text = "Result = \(result)"
 		firstOperand = result
 		mainView.secondOperandTextField.text = ""
-		selectedOperator = nil
+		selectedOperator = .none
 		secondOperand = nil
 	}
 	
 	// Bindings
 	
-	private func selectedOperatorChanged(oldValue: String?) {
-		if let operation = selectedOperator {
-			mainView.deselectButton(operation: oldValue ?? "")
-			mainView.selectButton(operation: operation)
+	private func selectedOperatorChanged(oldValue: Constants.Operators) {
+		if selectedOperator != .none {
+			mainView.deselectButton(operation: oldValue)
+			mainView.selectButton(operation: selectedOperator)
 			mainView.secondOperandTextField.isEnabled = true
 		} else {
-			mainView.deselectButton(operation: oldValue ?? "")
+			mainView.deselectButton(operation: oldValue)
 			mainView.secondOperandTextField.isEnabled = false
 		}
 	}

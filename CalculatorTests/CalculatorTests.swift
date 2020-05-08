@@ -21,10 +21,10 @@ class CalculatorTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-		addButton.titleLabel?.text = "+"
-		subButton.titleLabel?.text = "-"
-		multButton.titleLabel?.text = "*"
-		divButton.titleLabel?.text = "/"
+		addButton.titleLabel?.text = Constants.Operators.addition.rawValue
+		subButton.titleLabel?.text = Constants.Operators.subtraction.rawValue
+		multButton.titleLabel?.text = Constants.Operators.multiplication.rawValue
+		divButton.titleLabel?.text = Constants.Operators.division.rawValue
 		undoButton.titleLabel?.text = "Undo"
 		redoButton.titleLabel?.text = "Redo"
     }
