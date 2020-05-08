@@ -52,7 +52,7 @@ class MainView: UIView {
 		return button
 	}()
 	
-	let substractionButton: UIButton = {
+	let subtractionButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.setTitle("-", for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
@@ -90,7 +90,7 @@ class MainView: UIView {
 	}()
 	
 	lazy var operationsButtons = ["+": additionButton,
-								  "-": substractionButton,
+								  "-": subtractionButton,
 								  "*": multiplicationButton,
 								  "/": divisionButton]
 	
@@ -130,7 +130,7 @@ extension MainView {
 		
 		buttonsStackView.addArrangedSubview(undoButton)
 		buttonsStackView.addArrangedSubview(additionButton)
-		buttonsStackView.addArrangedSubview(substractionButton)
+		buttonsStackView.addArrangedSubview(subtractionButton)
 		buttonsStackView.addArrangedSubview(multiplicationButton)
 		buttonsStackView.addArrangedSubview(divisionButton)
 		buttonsStackView.addArrangedSubview(equalsButton)
