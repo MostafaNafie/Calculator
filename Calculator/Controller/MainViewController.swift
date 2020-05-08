@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var operationsHistory: [String]! {
+	private var operationsHistory: [(operation: String, operand: Int)]! {
 		didSet {
 			if operationsHistory.isEmpty {
 				mainView.toggleUndoButton(isEnabled: false)
@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var redoOperations: [String]! {
+	private var redoOperations: [(operation: String, operand: Int)]! {
 		didSet {
 			print("Redo: \(redoOperations!)")
 			if redoOperations.isEmpty {
@@ -91,9 +91,9 @@ extension MainViewController {
 		}
 		
 		if operationsHistory != nil {
-			operationsHistory += ["\(operation!)\(secondOperand!)"]
+			operationsHistory += [(operation!, secondOperand!)]
 		} else {
-			operationsHistory = ["\(operation!)\(secondOperand!)"]
+			operationsHistory = [(operation!, secondOperand!)]
 		}
 		
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
@@ -145,12 +145,13 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as! CollectionViewCell
-		cell.resultLabel.text = operationsHistory[indexPath.item]
+		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operation)\(operationsHistory[indexPath.item].operand)"
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		undoOperation(collectionView: collectionView, at: indexPath)
+		undoOperation(at: indexPath.item)
+		collectionView.deleteItems(at: [indexPath])
 	}
 	
 }
@@ -184,23 +185,19 @@ extension MainViewController {
 		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
-	private func undoOperation(collectionView: UICollectionView,at indexPath: IndexPath) {
-		let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+	private func undoOperation(at index: Int) {
+		let operation = operationsHistory[index]
 		// TODO: Use switch statement
-		if cell.resultLabel.text?.first == "+" {
-			cell.resultLabel.text?.removeFirst()
-			secondOperand = Int(cell.resultLabel.text!)
-			mainView.resultLabel.text = "Result = \(firstOperand - secondOperand!)"
-			firstOperand = firstOperand - secondOperand!
+		if operation.operation == "+" {
+			mainView.resultLabel.text = "Result = \(firstOperand - operation.operand)"
+			firstOperand = firstOperand - operation.operand
 		}
 		
 		if redoOperations != nil {
-			redoOperations += [operationsHistory.remove(at: indexPath.item)]
+			redoOperations += [operationsHistory.remove(at: index)]
 		} else {
-			redoOperations = [operationsHistory.remove(at: indexPath.item)]
+			redoOperations = [operationsHistory.remove(at: index)]
 		}
-
-		collectionView.deleteItems(at: [indexPath])
 	}
 	
 }
