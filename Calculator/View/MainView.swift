@@ -99,6 +99,8 @@ extension MainView {
 			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.defaultMargin),
 			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.defaultMargin)
 		])
+		// Cell Size
+		setupCellSize()
 	}
 	
 	private func setupLabel() -> UILabel {
@@ -147,12 +149,27 @@ extension MainView {
 	}
 	
 	private func setupCollectionView() -> UICollectionView {
-		let layout = UICollectionViewFlowLayout()
-		layout.itemSize = CGSize(width: 50, height: 50)
-		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .black
 		return collectionView
+	}
+	
+	private func setupCellSize() {
+		let numOfCells: CGFloat = 4.0
+		let padding: CGFloat = Constants.cellMargin
+		let paddingSpace: CGFloat = (Constants.defaultMargin * 2) + (padding * (numOfCells - 1))
+		let collectionViewWidth = UIScreen.main.bounds.width - (Constants.defaultMargin * 2)
+		let availableWidth = collectionViewWidth - paddingSpace
+		let cellWidth = availableWidth / numOfCells
+		
+		let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+		layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+		layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+		layout.minimumInteritemSpacing = padding
+		layout.minimumLineSpacing = padding
+		
+		historyCollectionView.collectionViewLayout = layout
 	}
 	
 }

@@ -14,6 +14,7 @@ struct Constants {
 	static let resultfontSize: CGFloat = 30
 	
 	static let defaultMargin: CGFloat = 20
+	static let cellMargin: CGFloat = 10
 	static let cellPadding: CGFloat = 5
 	
 	static let cellIdentifier = "cellIdentifier"
