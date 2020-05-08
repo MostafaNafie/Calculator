@@ -114,8 +114,8 @@ extension MainViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as! CollectionViewCell
-		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operator.rawValue)\(operationsHistory[indexPath.item].secondOperand)"
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as! OperationCell
+		cell.showHistory(operation: operationsHistory.last!)
 		return cell
 	}
 	
@@ -263,7 +263,7 @@ extension MainViewController {
 	private func setupCollectionView() {
 		mainView.historyCollectionView.delegate = self
 		mainView.historyCollectionView.dataSource = self
-		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
+		mainView.historyCollectionView.register(OperationCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
 	}
 	
 	private func attachTargetsToButtons() {

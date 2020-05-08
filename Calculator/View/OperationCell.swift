@@ -1,5 +1,5 @@
 //
-//  CollectionViewCell.swift
+//  OperationCell.swift
 //  Calculator
 //
 //  Created by Mustafa on 7/5/20.
@@ -8,17 +8,9 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class OperationCell: UICollectionViewCell {
 		
-	let resultLabel: UILabel = {
-		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = .systemFont(ofSize: Constants.fontSize)
-		label.textAlignment = .center
-		label.textColor = .white
-		label.backgroundColor = .black
-		return label
-	}()
+	private lazy var resultLabel = setupLabel()
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
@@ -32,7 +24,7 @@ class CollectionViewCell: UICollectionViewCell {
 	
 }
 
-extension CollectionViewCell {
+extension OperationCell {
 	
 	private func setupUI() {
 		backgroundColor = .white
@@ -47,6 +39,20 @@ extension CollectionViewCell {
 			resultLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.cellPadding),
 			resultLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cellPadding)
 		])
+	}
+	
+	private func setupLabel() -> UILabel {
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.font = .systemFont(ofSize: Constants.fontSize)
+		label.textAlignment = .center
+		label.textColor = .white
+		label.backgroundColor = .black
+		return label
+	}
+	
+	func showHistory(operation: Operation) {
+		resultLabel.text = "\(operation.operator.rawValue)\(operation.secondOperand)"
 	}
 	
 }

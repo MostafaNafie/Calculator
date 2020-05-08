@@ -12,7 +12,7 @@
 		45A42DB8246496AC00ACED90 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DB7246496AC00ACED90 /* MainViewController.swift */; };
 		45A42DBD246496B000ACED90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45A42DBC246496B000ACED90 /* Assets.xcassets */; };
 		45A42DCB24649A1600ACED90 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCA24649A1600ACED90 /* MainView.swift */; };
-		45A42DCD2464AE0300ACED90 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */; };
+		45A42DCD2464AE0300ACED90 /* OperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCC2464AE0300ACED90 /* OperationCell.swift */; };
 		45A42DE62465C5CA00ACED90 /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DE52465C5CA00ACED90 /* CalculatorTests.swift */; };
 		45A42DEE2465CE7200ACED90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DED2465CE7200ACED90 /* Constants.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +35,7 @@
 		45A42DBC246496B000ACED90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		45A42DC1246496B000ACED90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45A42DCA24649A1600ACED90 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		45A42DCC2464AE0300ACED90 /* OperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCell.swift; sourceTree = "<group>"; };
 		45A42DE32465C5CA00ACED90 /* CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45A42DE52465C5CA00ACED90 /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
 		45A42DE72465C5CA00ACED90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				45A42DCA24649A1600ACED90 /* MainView.swift */,
-				45A42DCC2464AE0300ACED90 /* CollectionViewCell.swift */,
+				45A42DCC2464AE0300ACED90 /* OperationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45A42DCD2464AE0300ACED90 /* CollectionViewCell.swift in Sources */,
+				45A42DCD2464AE0300ACED90 /* OperationCell.swift in Sources */,
 				45A42DB8246496AC00ACED90 /* MainViewController.swift in Sources */,
 				45A42DCB24649A1600ACED90 /* MainView.swift in Sources */,
 				45A42DB4246496AC00ACED90 /* AppDelegate.swift in Sources */,

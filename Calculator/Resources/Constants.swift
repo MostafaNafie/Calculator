@@ -17,7 +17,7 @@ struct Constants {
 	static let cellMargin: CGFloat = 10
 	static let cellPadding: CGFloat = 5
 	
-	static let cellIdentifier = "cellIdentifier"
+	static let cellIdentifier = "OperationCell"
 	
 	enum Operators: String {
 		case addition = "+"
