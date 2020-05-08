@@ -84,7 +84,7 @@ extension MainViewController: UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		defer {
-			print("secondOperand:", secondOperand!)
+			print("Second Operand =", secondOperand!)
 		}
 		// Enables deleting a number
 		if string.isEmpty {
@@ -97,7 +97,6 @@ extension MainViewController: UITextFieldDelegate {
 		// Accepts numbers only
 		if Int(string) != nil {
 			secondOperand = Int((textField.text! + string))
-			print("secondOperand:", secondOperand!)
 			return true
 		}
 		return false
@@ -120,17 +119,15 @@ extension MainViewController: UICollectionViewDataSource {
 		return cell
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		undoOperation(at: indexPath.item)
-	}
-	
 }
 
 // MARK: - CollectionView Delegate
 
 extension MainViewController: UICollectionViewDelegate {
 	
-	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		undoOperation(at: indexPath.item)
+	}
 	
 }
 
