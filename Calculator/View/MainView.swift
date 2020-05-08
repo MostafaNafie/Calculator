@@ -13,16 +13,16 @@ class MainView: UIView {
 	let resultLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = "Result"
-		label.font = .systemFont(ofSize: 30)
+		label.text = Constants.Strings.result.rawValue
+		label.font = .systemFont(ofSize: Constants.resultfontSize)
 		return label
 	}()
 	
 	let secondOperandTextField: UITextField = {
 		let textField = UITextField()
 		textField.translatesAutoresizingMaskIntoConstraints = false
-		textField.placeholder = "Please Enter the Second Operand"
-		textField.font = .systemFont(ofSize: 17)
+		textField.placeholder = Constants.Strings.secondOperandPlaceholder.rawValue
+		textField.font = .systemFont(ofSize: Constants.fontSize)
 		textField.textAlignment = .center
 		textField.borderStyle = .roundedRect
 		textField.keyboardType = .numberPad
@@ -44,7 +44,7 @@ class MainView: UIView {
 			let button: UIButton = {
 				let button = UIButton(type: .system)
 				button.setTitle(operation.rawValue, for: .normal)
-				button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+				button.titleLabel?.font = .boldSystemFont(ofSize: Constants.fontSize)
 				if operation == .undo || operation == .equal || operation == .redo {
 					button.isEnabled = false
 				}
@@ -101,26 +101,26 @@ extension MainView {
 	private func setupLayout() {
 		// Result Label
 		NSLayoutConstraint.activate([
-			resultLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+			resultLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.defaultMargin),
 			resultLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
 		// Second Operand TextField
 		NSLayoutConstraint.activate([
-			secondOperandTextField.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 20),
+			secondOperandTextField.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: Constants.defaultMargin),
 			secondOperandTextField.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
 		// Buttons StackView
 		NSLayoutConstraint.activate([
-			buttonsStackView.topAnchor.constraint(equalTo: secondOperandTextField.bottomAnchor, constant: 20),
-			buttonsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-			buttonsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20)
+			buttonsStackView.topAnchor.constraint(equalTo: secondOperandTextField.bottomAnchor, constant: Constants.defaultMargin),
+			buttonsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.defaultMargin),
+			buttonsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.defaultMargin)
 		])
 		// History CollectionView
 		NSLayoutConstraint.activate([
-			historyCollectionView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-			historyCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
-			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
+			historyCollectionView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: Constants.defaultMargin),
+			historyCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.defaultMargin),
+			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.defaultMargin),
+			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.defaultMargin)
 		])
 	}
 	

@@ -13,8 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
 	let resultLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = "+5"
-		label.font = .systemFont(ofSize: 17)
+		label.font = .systemFont(ofSize: Constants.fontSize)
 		label.textAlignment = .center
 		label.textColor = .white
 		label.backgroundColor = .black
@@ -43,10 +42,10 @@ extension CollectionViewCell {
 	private func setupLayout() {
 		// Result Label
 		NSLayoutConstraint.activate([
-			resultLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-			resultLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-			resultLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
-			resultLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5)
+			resultLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.cellPadding),
+			resultLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.cellPadding),
+			resultLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.cellPadding),
+			resultLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cellPadding)
 		])
 	}
 	

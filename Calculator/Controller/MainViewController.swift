@@ -67,9 +67,9 @@ extension MainViewController {
 	}
 	
 	@objc func historyButtonTapped(sender: UIButton) {
-		let action = sender.titleLabel?.text
-		print("\(action!) Button Tapped!")
-		if action == "Undo" {
+		let action = Constants.Operators(rawValue: (sender.titleLabel?.text)!)!
+		print("\(action.rawValue) Button Tapped!")
+		if action == .undo {
 			undoOperation(at: operationsHistory.count - 1)
 		} else {
 			redoOperation()
@@ -115,7 +115,7 @@ extension MainViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as! CollectionViewCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as! CollectionViewCell
 		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operator.rawValue)\(operationsHistory[indexPath.item].secondOperand)"
 		return cell
 	}
@@ -145,7 +145,7 @@ extension MainViewController {
 	private func setupCollectionView() {
 		mainView.historyCollectionView.delegate = self
 		mainView.historyCollectionView.dataSource = self
-		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
+		mainView.historyCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
 	}
 	
 	private func attachTargetsToButtons() {
@@ -236,7 +236,7 @@ extension MainViewController {
 	}
 	
 	private func updateResult(result: Int) {
-		mainView.resultLabel.text = "Result = \(result)"
+		mainView.resultLabel.text = "\(Constants.Strings.result.rawValue) = \(result)"
 		firstOperand = result
 		mainView.secondOperandTextField.text = ""
 		selectedOperator = .none
