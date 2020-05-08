@@ -110,7 +110,7 @@ extension MainViewController {
 		if action == "Undo" {
 			undoOperation(at: operationsHistory.count - 1)
 		} else {
-			// Redo
+			redoOperation()
 		}
 		print("\(action!) Button Tapped")
 	}
@@ -212,6 +212,23 @@ extension MainViewController {
 		}
 		
 		mainView.historyCollectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+	}
+	
+	private func redoOperation() {
+		let operation = redoOperations.removeLast()
+		// TODO: Use switch statement
+		if operation.operation == "+" {
+			mainView.resultLabel.text = "Result = \(firstOperand + operation.operand)"
+			firstOperand = firstOperand + operation.operand
+		}
+		
+		if operationsHistory != nil {
+			operationsHistory += [operation]
+		} else {
+			operationsHistory = [operation]
+		}
+		
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 	}
 	
 }
