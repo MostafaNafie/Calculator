@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias Operation = (operator: String, secondOperand: Int)
+
 class MainViewController: UIViewController {
 
 	private lazy var mainView = view as! MainView
@@ -22,9 +24,9 @@ class MainViewController: UIViewController {
 			}
 		}
 	}
-	private var operation: String? {
+	private var selectedOperator: String? {
 		didSet {
-			if let operation = operation {
+			if let operation = selectedOperator {
 				mainView.deselectButton(operation: oldValue ?? "")
 				mainView.selectButton(operation: operation)
 				mainView.secondOperandTextField.isEnabled = true
@@ -35,7 +37,7 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var operationsHistory: [(operation: String, operand: Int)]!
+	private var operationsHistory: [Operation]!
 	
 	private var undoPointer = -1 {
 		didSet {
@@ -47,7 +49,7 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var redoOperations: [(operation: String, operand: Int)]! {
+	private var redoOperations: [Operation]! {
 		didSet {
 //			print("Redo Operations: \(redoOperations!)")
 			if redoOperations.isEmpty {
@@ -83,42 +85,16 @@ class MainViewController: UIViewController {
 extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
-		operation = sender.titleLabel?.text
-		print("\(operation!) Button Tapped!")
+		selectedOperator = sender.titleLabel?.text
+		print("\(selectedOperator!) Button Tapped!")
 	}
 	
 	@objc func equalsButtonTapped(sender: UIButton) {
 		print("Equals Button Tapped!")
-		var result: Int!
-		switch operation {
-		case "+":
-			result = firstOperand + (secondOperand!)
-		case "-":
-			result = firstOperand - (secondOperand!)
-		case "*":
-			result = firstOperand * (secondOperand!)
-		case "/":
-			result = firstOperand / (secondOperand!)
-		default:
-			break
-		}
-		
-		print("Operation Performed:", firstOperand, operation!, secondOperand!, "=", result!, "\n")
-		
-		if operationsHistory != nil {
-			operationsHistory += [(operation!, secondOperand!)]
-		} else {
-			operationsHistory = [(operation!, secondOperand!)]
-		}
-		undoPointer = operationsHistory.count - 1
-		
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
-		
-		mainView.resultLabel.text = "Result = \(result!)"
-		firstOperand = result
-		mainView.secondOperandTextField.text = ""
-		operation = nil
-		secondOperand = nil
+		let operation = (operator: selectedOperator!, secondOperand: secondOperand!)
+		let result = performOperation(operation: operation)
+		updateResult(result: result)
+		updateHistory(operation: operation)
 	}
 	
 	@objc func historyButtonTapped(sender: UIButton) {
@@ -171,7 +147,7 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as! CollectionViewCell
-		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operation)\(operationsHistory[indexPath.item].operand)"
+		cell.resultLabel.text = "\(operationsHistory[indexPath.item].operator)\(operationsHistory[indexPath.item].secondOperand)"
 		return cell
 	}
 	
@@ -216,27 +192,26 @@ extension MainViewController {
 	private func undoOperation(at index: Int) {
 		let operation = operationsHistory[undoPointer]
 		var result: Int!
-		switch operation.operation {
+		switch operation.operator {
 		case "+":
-			result = firstOperand - operation.operand
-			operationsHistory += [("-", operation.operand)]
+			result = firstOperand - operation.secondOperand
+			operationsHistory += [("-", operation.secondOperand)]
 		case "-":
-			result = firstOperand + operation.operand
-			operationsHistory += [("+", operation.operand)]
+			result = firstOperand + operation.secondOperand
+			operationsHistory += [("+", operation.secondOperand)]
 		case "*":
-			result = firstOperand / operation.operand
-			operationsHistory += [("/", operation.operand)]
+			result = firstOperand / operation.secondOperand
+			operationsHistory += [("/", operation.secondOperand)]
 		case "/":
-			result = firstOperand * operation.operand
-			operationsHistory += [("*", operation.operand)]
+			result = firstOperand * operation.secondOperand
+			operationsHistory += [("*", operation.secondOperand)]
 		default:
 			break
 		}
 		
-		print("Undo Performed:", firstOperand, operation.operation, operation.operand, "=", result!, "\n")
+		print("Undo Performed:", firstOperand, operation.operator, operation.secondOperand, "=", result!, "\n")
 
-		firstOperand = result
-		mainView.resultLabel.text = "Result = \(result!)"
+		updateResult(result: result)
 		
 		if redoOperations != nil {
 			redoOperations += [operation]
@@ -250,36 +225,50 @@ extension MainViewController {
 	
 	private func redoOperation() {
 		let operation = redoOperations.removeLast()
-		var result: Int!
-		switch operation.operation {
+		let result = performOperation(operation: operation)
+		updateResult(result: result)
+		updateHistory(operation: operation)
+	}
+	
+	private func performOperation(operation: Operation) -> Int {
+		var result = 0
+		switch operation.operator {
 		case "+":
-			result = firstOperand + operation.operand
+			result = firstOperand + operation.secondOperand
 		case "-":
-			result = firstOperand - operation.operand
+			result = firstOperand - operation.secondOperand
 		case "*":
-			result = firstOperand * operation.operand
+			result = firstOperand * operation.secondOperand
 		case "/":
-			result = firstOperand / operation.operand
+			result = firstOperand / operation.secondOperand
 		default:
 			break
 		}
 		
-		print("Redo Performed:", firstOperand, operation.operation, operation.operand, "=", result!, "\n")
+		print("Operation Performed:", firstOperand, operation.operator, operation.secondOperand, "=", result, "\n")
 		
-		firstOperand = result
-		mainView.resultLabel.text = "Result = \(result!)"
-		
+		return result
+	}
+	
+	private func updateHistory(operation: Operation) {
 		if operationsHistory != nil {
 			operationsHistory += [operation]
 		} else {
 			operationsHistory = [operation]
 		}
-		
 		undoPointer = operationsHistory.count - 1
 		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
 	}
 	
-	func test() {
+	private func updateResult(result: Int) {
+		mainView.resultLabel.text = "Result = \(result)"
+		firstOperand = result
+		mainView.secondOperandTextField.text = ""
+		selectedOperator = nil
+		secondOperand = nil
+	}
+	
+	private func test() {
 		// Add 3
 		mainView.operationsButtons["+"]!.sendActions(for: .touchUpInside)
 		secondOperand = 3
