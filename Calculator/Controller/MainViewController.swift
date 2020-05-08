@@ -130,6 +130,10 @@ extension MainViewController: UICollectionViewDataSource {
 		return cell
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		undoOperation(collectionView: collectionView, at: indexPath)
+	}
+	
 }
 
 // MARK: - CollectionView Delegate
@@ -159,6 +163,19 @@ extension MainViewController {
 			button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 		}
 		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
+	}
+	
+	private func undoOperation(collectionView: UICollectionView,at indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+		// TODO: Use switch statement
+		if cell.resultLabel.text?.first == "+" {
+			cell.resultLabel.text?.removeFirst()
+			secondOperand = Int(cell.resultLabel.text!)
+			mainView.resultLabel.text = "Result = \(firstOperand - secondOperand!)"
+			firstOperand = firstOperand - secondOperand!
+		}
+		operationsHistory.remove(at: indexPath.item)
+		collectionView.deleteItems(at: [indexPath])
 	}
 	
 }
