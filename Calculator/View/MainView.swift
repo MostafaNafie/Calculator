@@ -37,65 +37,24 @@ class MainView: UIView {
 		return stackView
 	}()
 	
-	private let undoButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("Undo", for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		button.isEnabled = false
-		return button
+	var operatorButtons: [Constants.Operators: UIButton] = {
+		var dict = [Constants.Operators.none: UIButton()]
+		let operations: [Constants.Operators] = [.undo, .addition, .subtraction, .multiplication, .division, .equal, .redo]
+		for operation in operations {
+			let button: UIButton = {
+				let button = UIButton(type: .system)
+				button.setTitle(operation.rawValue, for: .normal)
+				button.titleLabel?.font = .boldSystemFont(ofSize: 17)
+				if operation == .undo || operation == .equal || operation == .redo {
+					button.isEnabled = false
+				}
+				return button
+			}()
+			dict[operation] = button
+		}
+		return dict
 	}()
-	
-	let additionButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle(Constants.Operators.addition.rawValue, for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		return button
-	}()
-	
-	let subtractionButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle(Constants.Operators.subtraction.rawValue, for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		return button
-	}()
-	
-	let multiplicationButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle(Constants.Operators.multiplication.rawValue, for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		return button
-	}()
-	
-	let divisionButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle(Constants.Operators.division.rawValue, for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		return button
-	}()
-	
-	let equalsButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("=", for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		button.isEnabled = false
-		return button
-	}()
-	
-	private let redoButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("Redo", for: .normal)
-		button.titleLabel?.font = .boldSystemFont(ofSize: 17)
-		button.isEnabled = false
-		return button
-	}()
-	
-	lazy var operationsButtons: [Constants.Operators: UIButton] = [.addition: additionButton,
-																   .subtraction: subtractionButton,
-																   .multiplication: multiplicationButton,
-																   .division: divisionButton]
-	
-	lazy var historyButtons = [undoButton, redoButton]
-	
+
 	let historyCollectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.itemSize = CGSize(width: 50, height: 50)
@@ -128,13 +87,13 @@ extension MainView {
 		addSubview(secondOperandTextField)
 		addSubview(buttonsStackView)
 		
-		buttonsStackView.addArrangedSubview(undoButton)
-		buttonsStackView.addArrangedSubview(additionButton)
-		buttonsStackView.addArrangedSubview(subtractionButton)
-		buttonsStackView.addArrangedSubview(multiplicationButton)
-		buttonsStackView.addArrangedSubview(divisionButton)
-		buttonsStackView.addArrangedSubview(equalsButton)
-		buttonsStackView.addArrangedSubview(redoButton)
+		buttonsStackView.addArrangedSubview(operatorButtons[.undo]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.addition]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.subtraction]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.multiplication]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.division]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.equal]!)
+		buttonsStackView.addArrangedSubview(operatorButtons[.redo]!)
 		
 		addSubview(historyCollectionView)
 	}
@@ -166,25 +125,21 @@ extension MainView {
 	}
 	
 	func selectButton(operation: Constants.Operators) {
-		if let button = operationsButtons[operation] {
+		if let button = operatorButtons[operation] {
 			button.backgroundColor = .lightGray
 			button.tintColor = .white
 		}
 	}
 	
 	func deselectButton(operation: Constants.Operators) {
-		if let button = operationsButtons[operation] {
+		if let button = operatorButtons[operation] {
 			button.backgroundColor = nil
 			button.tintColor = .systemBlue
 		}
 	}
 	
-	func toggleUndoButton(isEnabled: Bool) {
-		undoButton.isEnabled = isEnabled
-	}
-	
-	func toggleRedoButton(isEnabled: Bool) {
-		redoButton.isEnabled = isEnabled
+	func toggleButton(buttonName: Constants.Operators, isEnabled: Bool) {
+		operatorButtons[buttonName]!.isEnabled = isEnabled
 	}
 	
 }

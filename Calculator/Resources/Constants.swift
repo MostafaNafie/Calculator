@@ -9,11 +9,16 @@
 import Foundation
 
 struct Constants {
+	
 	enum Operators: String {
 		case addition = "+"
 		case subtraction = "-"
 		case multiplication = "*"
 		case division = "/"
+		case equal = "="
+		case undo = "Undo"
+		case redo = "Redo"
 		case none = ""
 	}
+	
 }

@@ -84,7 +84,7 @@ extension MainViewController: UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		defer {
-			print("secondOperand:", secondOperand)
+			print("secondOperand:", secondOperand!)
 		}
 		// Enables deleting a number
 		if string.isEmpty {
@@ -97,7 +97,7 @@ extension MainViewController: UITextFieldDelegate {
 		// Accepts numbers only
 		if Int(string) != nil {
 			secondOperand = Int((textField.text! + string))
-			print("secondOperand:", secondOperand)
+			print("secondOperand:", secondOperand!)
 			return true
 		}
 		return false
@@ -149,13 +149,19 @@ extension MainViewController {
 	}
 	
 	private func attachTargetsToButtons() {
-		for (_, button) in mainView.operationsButtons {
-			button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		for (buttonName, button) in mainView.operatorButtons {
+			if buttonName == .redo || buttonName == .undo {
+				button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
+			} else if buttonName == .equal {
+				button.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
+			} else {
+				button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+			}
 		}
-		for button in mainView.historyButtons {
-			button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
-		}
-		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
+//		for button in mainView.historyButtons {
+//			button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
+//		}
+//		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
 	private func undoOperation(at index: Int) {
@@ -251,28 +257,19 @@ extension MainViewController {
 	}
 	
 	private func undoPointerChanged() {
-		if undoPointer == -1 {
-			mainView.toggleUndoButton(isEnabled: false)
-		} else {
-			mainView.toggleUndoButton(isEnabled: true)
-		}
+		let isEnabled = !(undoPointer == -1)
+		mainView.toggleButton(buttonName: .undo, isEnabled: isEnabled)
 	}
 	
 	private func secondOperandChanged() {
-		if secondOperand != nil {
-			mainView.equalsButton.isEnabled = true
-		} else {
-			mainView.equalsButton.isEnabled = false
-		}
+		let isEnabled = (secondOperand != nil)
+		mainView.toggleButton(buttonName: .equal, isEnabled: isEnabled)
 	}
 	
 	private func redoOperationsChanged() {
 		//			print("Redo Operations: \(redoOperations!)")
-		if redoOperations.isEmpty {
-			mainView.toggleRedoButton(isEnabled: false)
-		} else {
-			mainView.toggleRedoButton(isEnabled: true)
-		}
+		let isEnabled = !(redoOperations.isEmpty)
+		mainView.toggleButton(buttonName: .redo, isEnabled: isEnabled)
 	}
 	
 }
