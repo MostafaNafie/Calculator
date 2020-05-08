@@ -143,10 +143,9 @@ extension MainViewController {
 	}
 	
 	private func attachTargetsToButtons() {
-		mainView.additionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
-		mainView.substractionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
-		mainView.multiplicationButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
-		mainView.divisionButton.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		for (_, button) in mainView.operationsButtons {
+			button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
+		}
 		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
