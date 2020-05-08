@@ -61,7 +61,7 @@ extension MainViewController {
 	@objc func equalsButtonTapped(sender: UIButton) {
 		print("Equals Button Tapped!")
 		let operation = (operator: selectedOperator, secondOperand: secondOperand!)
-		let result = performOperation(operation: operation)
+		let result = performOperation(operation)
 		updateResult(result: result)
 		updateHistory(operation: operation)
 	}
@@ -158,10 +158,6 @@ extension MainViewController {
 				button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 			}
 		}
-//		for button in mainView.historyButtons {
-//			button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
-//		}
-//		mainView.equalsButton.addTarget(self, action: #selector(equalsButtonTapped(sender:)), for: .touchUpInside)
 	}
 	
 	private func undoOperation(at index: Int) {
@@ -200,12 +196,12 @@ extension MainViewController {
 	
 	private func redoOperation() {
 		let operation = redoOperations.removeLast()
-		let result = performOperation(operation: operation)
+		let result = performOperation(operation)
 		updateResult(result: result)
 		updateHistory(operation: operation)
 	}
 	
-	private func performOperation(operation: Operation) -> Int {
+	private func performOperation(_ operation: Operation) -> Int {
 		var result = 0
 		switch operation.operator {
 		case .addition:
@@ -267,7 +263,7 @@ extension MainViewController {
 	}
 	
 	private func redoOperationsChanged() {
-		//			print("Redo Operations: \(redoOperations!)")
+//		print("Redo Operations: \(redoOperations!)")
 		let isEnabled = !(redoOperations.isEmpty)
 		mainView.toggleButton(buttonName: .redo, isEnabled: isEnabled)
 	}
