@@ -35,17 +35,17 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var operationsHistory: [(operation: String, operand: Int)]! {
+	private var operationsHistory: [(operation: String, operand: Int)]!
+	
+	private var undoPointer = -1 {
 		didSet {
-			if operationsHistory.isEmpty {
+			if undoPointer == -1 {
 				mainView.toggleUndoButton(isEnabled: false)
 			} else {
 				mainView.toggleUndoButton(isEnabled: true)
 			}
 		}
 	}
-	
-	private var undoPointer = -1
 	
 	private var redoOperations: [(operation: String, operand: Int)]! {
 		didSet {
@@ -241,11 +241,22 @@ extension MainViewController {
 	
 	private func redoOperation() {
 		let operation = redoOperations.removeLast()
-		// TODO: Use switch statement
-		if operation.operation == "+" {
-			mainView.resultLabel.text = "Result = \(firstOperand + operation.operand)"
-			firstOperand = firstOperand + operation.operand
+		var result: Int!
+		switch operation.operation {
+		case "+":
+			result = firstOperand + operation.operand
+		case "-":
+			result = firstOperand - operation.operand
+		case "*":
+			result = firstOperand * operation.operand
+		case "/":
+			result = firstOperand / operation.operand
+		default:
+			break
 		}
+		
+		firstOperand = result
+		mainView.resultLabel.text = "Result = \(result!)"
 		
 		if operationsHistory != nil {
 			operationsHistory += [operation]
