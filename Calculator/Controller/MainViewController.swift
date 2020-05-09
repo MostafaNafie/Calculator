@@ -227,7 +227,7 @@ extension MainViewController {
 extension MainViewController {
 	
 	private func attachTargetsToButtons() {
-		for (buttonName, button) in mainView.operatorButtons {
+		for (buttonName, button) in mainView.getButtons() {
 			if buttonName == .redo || buttonName == .undo {
 				button.addTarget(self, action: #selector(historyButtonTapped(sender:)), for: .touchUpInside)
 			} else if buttonName == .equal {

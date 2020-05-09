@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias Buttons = [Constants.Operators: UIButton]
+
 class MainView: UIView {
 	
 	// MARK: - Views
@@ -15,7 +17,7 @@ class MainView: UIView {
 	private lazy var resultLabel = setupLabel()
 	private lazy var secondOperandTextField = setupTextField()
 	private lazy var buttonsStackView = setupStackView()
-	lazy var operatorButtons = setupButtons()
+	private lazy var operatorButtons = setupButtons()
 	private lazy var historyCollectionView = setupCollectionView()
 	
 	// MARK: - Initializers
@@ -50,6 +52,10 @@ extension MainView {
 	
 	func toggleTextField(isEnabled: Bool) {
 		secondOperandTextField.isEnabled = isEnabled
+	}
+	
+	func getButtons() -> Buttons {
+		return operatorButtons
 	}
 	
 	func selectButton(selectedOperator: Constants.Operators?, previousOperator: Constants.Operators?) {
@@ -145,8 +151,8 @@ extension MainView {
 		return stackView
 	}
 	
-	private func setupButtons() -> [Constants.Operators: UIButton] {
-		var buttonsDict = [Constants.Operators: UIButton]()
+	private func setupButtons() -> Buttons {
+		var buttonsDict = Buttons()
 		for buttonName in Constants.Operators.allCases {
 			let button: UIButton = {
 				let button = UIButton(type: .system)
