@@ -70,7 +70,7 @@ extension MainViewController {
 		let action = Constants.Operators(rawValue: (sender.titleLabel?.text)!)!
 		print("\(action.rawValue) Button Tapped!")
 		if action == .undo {
-			undoOperation(at: operationsHistory.count - 1)
+			undoOperation(at: undoPointer)
 		} else {
 			redoOperation()
 		}
@@ -84,7 +84,7 @@ extension MainViewController: UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		defer {
-			print("Second Operand =", secondOperand!)
+			print("Second Operand =", secondOperand ?? "nil")
 		}
 		// Enables deleting a number
 		if string.isEmpty {
@@ -126,7 +126,7 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		undoOperation(at: indexPath.item)
+		undoOperation(at: operationsHistory.count - 1 - indexPath.item)
 	}
 	
 }
@@ -136,7 +136,7 @@ extension MainViewController: UICollectionViewDelegate {
 extension MainViewController {
 	
 	private func undoOperation(at index: Int) {
-		let operation = operationsHistory[undoPointer]
+		let operation = operationsHistory[index]
 		let reversedOperation = reverseOperation(operation)
 		let result = performOperation(reversedOperation)
 		updateResult(result: result)
@@ -195,7 +195,7 @@ extension MainViewController {
 			operationsHistory = [operation]
 		}
 		undoPointer = operationsHistory.count - 1
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
 	}
 	
 	private func updateUndoHistory(operation: Operation) {
@@ -205,7 +205,7 @@ extension MainViewController {
 			redoOperations = [operation]
 		}
 		undoPointer -= 1
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: operationsHistory.count-1, section: 0)])
+		mainView.historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
 	}
 	
 	private func updateResult(result: Int) {
@@ -234,7 +234,7 @@ extension MainViewController {
 	}
 	
 	private func undoPointerChanged() {
-		let isEnabled = !(undoPointer == -1)
+		let isEnabled = (undoPointer > -1)
 		mainView.toggleButton(buttonName: .undo, isEnabled: isEnabled)
 	}
 	
