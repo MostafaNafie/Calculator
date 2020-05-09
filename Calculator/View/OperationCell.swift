@@ -24,6 +24,8 @@ class OperationCell: UICollectionViewCell {
 	
 }
 
+// MARK: - Helper functions
+
 extension OperationCell {
 	
 	private func setupUI() {

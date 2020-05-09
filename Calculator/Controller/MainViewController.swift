@@ -21,13 +21,13 @@ class MainViewController: UIViewController {
 		didSet { secondOperandChanged() }
 	}
 	private var selectedOperator: Constants.Operators? {
-		didSet { selectedOperatorChanged(oldValue: oldValue) }
+		didSet { selectedOperatorChanged(previousOperator: oldValue) }
 	}
 	private var undoPointer = -1 {
 		didSet { undoPointerChanged() }
 	}
-	private var operationsHistory: [Operation]!
-	private var redoOperations: [Operation]! {
+	private var operationsHistory = [Operation]()
+	private var redoOperations = [Operation]() {
 		didSet { redoOperationsChanged() }
 	}
 	
@@ -95,7 +95,6 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		guard operationsHistory != nil else {return 0}
 		return operationsHistory.count
 	}
 	
@@ -120,21 +119,6 @@ extension MainViewController: UICollectionViewDelegate {
 // MARK: - Operations
 
 extension MainViewController {
-	
-	private func undoOperation(at index: Int) {
-		let operation = operationsHistory[index]
-		let reversedOperation = reverseOperation(operation)
-		let result = performOperation(reversedOperation)
-		updateResult(result: result)
-		updateUndoHistory(operation: operation)
-	}
-	
-	private func redoOperation() {
-		let operation = redoOperations.removeLast()
-		let result = performOperation(operation)
-		updateResult(result: result)
-		updateHistory(operation: operation)
-	}
 	
 	private func performOperation(_ operation: Operation) -> Int {
 		var result = 0
@@ -173,23 +157,30 @@ extension MainViewController {
 		operationsHistory += [operation]
 		return operation
 	}
+		
+	private func undoOperation(at index: Int) {
+		let operation = operationsHistory[index]
+		let reversedOperation = reverseOperation(operation)
+		let result = performOperation(reversedOperation)
+		updateResult(result: result)
+		updateUndoHistory(operation: operation)
+	}
+	
+	private func redoOperation() {
+		let operation = redoOperations.removeLast()
+		let result = performOperation(operation)
+		updateResult(result: result)
+		updateHistory(operation: operation)
+	}
 	
 	private func updateHistory(operation: Operation) {
-		if operationsHistory != nil {
-			operationsHistory += [operation]
-		} else {
-			operationsHistory = [operation]
-		}
+		operationsHistory += [operation]
 		undoPointer = operationsHistory.count - 1
 		mainView.updateCollectionView()
 	}
 	
 	private func updateUndoHistory(operation: Operation) {
-		if redoOperations != nil {
-			redoOperations += [operation]
-		} else {
-			redoOperations = [operation]
-		}
+		redoOperations += [operation]
 		undoPointer -= 1
 		mainView.updateCollectionView()
 	}
@@ -198,7 +189,7 @@ extension MainViewController {
 		mainView.showResult(result)
 		firstOperand = result
 		mainView.setTextFieldText("")
-		selectedOperator = .none
+		selectedOperator = nil
 		secondOperand = nil
 	}
 	
@@ -208,8 +199,8 @@ extension MainViewController {
 
 extension MainViewController {
 	
-	private func selectedOperatorChanged(oldValue: Constants.Operators?) {
-		mainView.selectButton(selectedOperator: selectedOperator, previousOperator: oldValue)
+	private func selectedOperatorChanged(previousOperator: Constants.Operators?) {
+		mainView.selectButton(selectedOperator: selectedOperator, previousOperator: previousOperator)
 		let isEnabled = (selectedOperator != nil)
 		mainView.toggleTextField(isEnabled: isEnabled)
 	}
@@ -225,7 +216,6 @@ extension MainViewController {
 	}
 	
 	private func redoOperationsChanged() {
-		//		print("Redo Operations: \(redoOperations!)")
 		let isEnabled = !(redoOperations.isEmpty)
 		mainView.toggleButton(buttonName: .redo, isEnabled: isEnabled)
 	}

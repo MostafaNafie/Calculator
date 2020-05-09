@@ -36,13 +36,8 @@ class MainView: UIView {
 
 extension MainView {
 	
-	func attachCollectionView(to viewController: UIViewController) {
-		historyCollectionView.delegate = (viewController as! UICollectionViewDelegate)
-		historyCollectionView.dataSource = (viewController as! UICollectionViewDataSource)
-	}
-	
-	func updateCollectionView() {
-		historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+	func showResult(_ result: Int) {
+		resultLabel.text = "\(Constants.Strings.result.rawValue) = \(result)"
 	}
 	
 	func setTextFieldDelegate(to viewController: UIViewController) {
@@ -72,8 +67,13 @@ extension MainView {
 		operatorButtons[buttonName]!.isEnabled = isEnabled
 	}
 	
-	func showResult(_ result: Int) {
-		resultLabel.text = "\(Constants.Strings.result.rawValue) = \(result)"
+	func attachCollectionView(to viewController: UIViewController) {
+		historyCollectionView.delegate = (viewController as! UICollectionViewDelegate)
+		historyCollectionView.dataSource = (viewController as! UICollectionViewDataSource)
+	}
+	
+	func updateCollectionView() {
+		historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
 	}
 	
 }
@@ -93,7 +93,7 @@ extension MainView {
 	private func setupLayout() {
 		// Result Label
 		NSLayoutConstraint.activate([
-			resultLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.defaultMargin),
+			resultLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,constant: Constants.defaultMargin),
 			resultLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
 		// Second Operand TextField
@@ -110,9 +110,9 @@ extension MainView {
 		// History CollectionView
 		NSLayoutConstraint.activate([
 			historyCollectionView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: Constants.defaultMargin),
+			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.defaultMargin),
 			historyCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.defaultMargin),
-			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.defaultMargin),
-			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.defaultMargin)
+			historyCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.defaultMargin)
 		])
 		// Cell Size
 		setupCellSize(in: historyCollectionView)
@@ -122,7 +122,7 @@ extension MainView {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = Constants.Strings.result.rawValue
-		label.font = .systemFont(ofSize: Constants.resultfontSize)
+		label.font = .systemFont(ofSize: Constants.resultFontSize)
 		return label
 	}
 	
