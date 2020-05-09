@@ -112,7 +112,7 @@ extension MainView {
 			historyCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.defaultMargin)
 		])
 		// Cell Size
-		setupCellSize()
+		setupCellSize(in: historyCollectionView)
 	}
 	
 	private func setupLabel() -> UILabel {
@@ -167,7 +167,7 @@ extension MainView {
 		return collectionView
 	}
 	
-	private func setupCellSize() {
+	private func setupCellSize(in collectionView: UICollectionView) {
 		let numOfCells: CGFloat = 4.0
 		let padding: CGFloat = Constants.cellMargin
 		let paddingSpace: CGFloat = (Constants.defaultMargin * 2) + (padding * (numOfCells - 1))
@@ -181,7 +181,7 @@ extension MainView {
 		layout.minimumInteritemSpacing = padding
 		layout.minimumLineSpacing = padding
 		
-		historyCollectionView.collectionViewLayout = layout
+		collectionView.collectionViewLayout = layout
 	}
 	
 }
