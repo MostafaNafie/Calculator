@@ -115,7 +115,7 @@ extension MainViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as! OperationCell
-		cell.showHistory(operation: operationsHistory.last!)
+		cell.setOperation(operationsHistory.last!)
 		return cell
 	}
 	

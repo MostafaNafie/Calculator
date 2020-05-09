@@ -51,7 +51,7 @@ extension OperationCell {
 		return label
 	}
 	
-	func showHistory(operation: Operation) {
+	func setOperation(_ operation: Operation) {
 		resultLabel.text = "\(operation.operator.rawValue)\(operation.secondOperand)"
 	}
 	
