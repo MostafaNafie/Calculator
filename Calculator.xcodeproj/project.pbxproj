@@ -15,6 +15,7 @@
 		45A42DCD2464AE0300ACED90 /* OperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DCC2464AE0300ACED90 /* OperationCell.swift */; };
 		45A42DE62465C5CA00ACED90 /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DE52465C5CA00ACED90 /* CalculatorTests.swift */; };
 		45A42DEE2465CE7200ACED90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DED2465CE7200ACED90 /* Constants.swift */; };
+		45A42DF124670B6400ACED90 /* UIView+SetAutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		45A42DE52465C5CA00ACED90 /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
 		45A42DE72465C5CA00ACED90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45A42DED2465CE7200ACED90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SetAutoLayout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				45A42DB3246496AC00ACED90 /* AppDelegate.swift */,
 				45A42DB5246496AC00ACED90 /* SceneDelegate.swift */,
+				45A42DEF246709B900ACED90 /* Extensions */,
 				45A42DC92464982D00ACED90 /* View */,
 				45A42DC82464981A00ACED90 /* Controller */,
 				45A42DC7246497EB00ACED90 /* Resources */,
@@ -124,6 +127,14 @@
 				45A42DE72465C5CA00ACED90 /* Info.plist */,
 			);
 			path = CalculatorTests;
+			sourceTree = "<group>";
+		};
+		45A42DEF246709B900ACED90 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +239,7 @@
 				45A42DCD2464AE0300ACED90 /* OperationCell.swift in Sources */,
 				45A42DB8246496AC00ACED90 /* MainViewController.swift in Sources */,
 				45A42DCB24649A1600ACED90 /* MainView.swift in Sources */,
+				45A42DF124670B6400ACED90 /* UIView+SetAutoLayout.swift in Sources */,
 				45A42DB4246496AC00ACED90 /* AppDelegate.swift in Sources */,
 				45A42DB6246496AC00ACED90 /* SceneDelegate.swift in Sources */,
 				45A42DEE2465CE7200ACED90 /* Constants.swift in Sources */,

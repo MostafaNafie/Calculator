@@ -91,7 +91,7 @@ extension MainView {
 	private func setupUI() {
 		backgroundColor = .white
 		// Views
-		[resultLabel, secondOperandTextField, buttonsStackView, historyCollectionView].forEach { addSubview($0) }
+		setSubviewsForAutoLayout([resultLabel, secondOperandTextField, buttonsStackView, historyCollectionView])
 		// Buttons
 		Constants.Operators.allCases.forEach { buttonsStackView.addArrangedSubview(operatorButtons[$0]!) }
 	}
@@ -126,7 +126,6 @@ extension MainView {
 	
 	private func setupLabel() -> UILabel {
 		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = Constants.Strings.result.rawValue
 		label.font = .systemFont(ofSize: Constants.resultFontSize)
 		return label
@@ -134,7 +133,6 @@ extension MainView {
 	
 	private func setupTextField() -> UITextField {
 		let textField = UITextField()
-		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.placeholder = Constants.Strings.secondOperandPlaceholder.rawValue
 		textField.font = .systemFont(ofSize: Constants.fontSize)
 		textField.textAlignment = .center
@@ -146,7 +144,6 @@ extension MainView {
 	
 	private func setupStackView() -> UIStackView {
 		let stackView = UIStackView()
-		stackView.translatesAutoresizingMaskIntoConstraints = false
 		stackView.distribution = .equalSpacing
 		return stackView
 	}
@@ -170,7 +167,6 @@ extension MainView {
 	
 	private func setupCollectionView() -> UICollectionView {
 		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .black
 		collectionView.register(OperationCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
 		return collectionView
