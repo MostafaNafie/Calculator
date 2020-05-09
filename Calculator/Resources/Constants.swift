@@ -19,15 +19,14 @@ struct Constants {
 	
 	static let cellIdentifier = "OperationCell"
 	
-	enum Operators: String {
+	enum Operators: String, CaseIterable {
+		case undo = "Undo"
 		case addition = "+"
 		case subtraction = "-"
 		case multiplication = "*"
 		case division = "/"
 		case equal = "="
-		case undo = "Undo"
 		case redo = "Redo"
-		case none = ""
 	}
 	
 	enum Strings: String {

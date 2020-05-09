@@ -48,15 +48,12 @@ extension MainView {
 		secondOperandTextField.isEnabled = isEnabled
 	}
 	
-	func selectButton(operation: Constants.Operators) {
-		if let button = operatorButtons[operation] {
+	func selectButton(selectedOperator: Constants.Operators?, previousOperator: Constants.Operators?) {
+		if  let selectedOperator = selectedOperator, let button = operatorButtons[selectedOperator] {
 			button.backgroundColor = .lightGray
 			button.tintColor = .white
 		}
-	}
-	
-	func deselectButton(operation: Constants.Operators) {
-		if let button = operatorButtons[operation] {
+		if let previousOperator = previousOperator, let button = operatorButtons[previousOperator] {
 			button.backgroundColor = nil
 			button.tintColor = .systemBlue
 		}
@@ -72,7 +69,6 @@ extension MainView {
 	
 }
 
-
 // MARK: - Helper functions
 
 extension MainView {
@@ -80,11 +76,9 @@ extension MainView {
 	private func setupUI() {
 		backgroundColor = .white
 		// Views
-		[resultLabel, secondOperandTextField, buttonsStackView, historyCollectionView].forEach {addSubview($0)}
+		[resultLabel, secondOperandTextField, buttonsStackView, historyCollectionView].forEach { addSubview($0) }
 		// Buttons
-		[operatorButtons[.undo]!, operatorButtons[.addition]!, operatorButtons[.subtraction]!,
-		 operatorButtons[.multiplication]!, operatorButtons[.division]!, operatorButtons[.equal]!,
-		 operatorButtons[.redo]!].forEach {buttonsStackView.addArrangedSubview($0)}
+		Constants.Operators.allCases.forEach { buttonsStackView.addArrangedSubview(operatorButtons[$0]!) }
 	}
 	
 	private func setupLayout() {
@@ -143,21 +137,20 @@ extension MainView {
 	}
 	
 	private func setupButtons() -> [Constants.Operators: UIButton] {
-		var dict = [Constants.Operators.none: UIButton()]
-		let operations: [Constants.Operators] = [.undo, .addition, .subtraction, .multiplication, .division, .equal, .redo]
-		for operation in operations {
+		var buttonsDict = [Constants.Operators: UIButton]()
+		for buttonName in Constants.Operators.allCases {
 			let button: UIButton = {
 				let button = UIButton(type: .system)
-				button.setTitle(operation.rawValue, for: .normal)
+				button.setTitle(buttonName.rawValue, for: .normal)
 				button.titleLabel?.font = .boldSystemFont(ofSize: Constants.fontSize)
-				if operation == .undo || operation == .equal || operation == .redo {
+				if buttonName == .undo || buttonName == .equal || buttonName == .redo {
 					button.isEnabled = false
 				}
 				return button
 			}()
-			dict[operation] = button
+			buttonsDict[buttonName] = button
 		}
-		return dict
+		return buttonsDict
 	}
 	
 	private func setupCollectionView() -> UICollectionView {

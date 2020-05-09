@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
 	var secondOperand: Int? {
 		didSet { secondOperandChanged() }
 	}
-	private var selectedOperator: Constants.Operators = .none {
+	private var selectedOperator: Constants.Operators? {
 		didSet { selectedOperatorChanged(oldValue: oldValue) }
 	}
 	private var undoPointer = -1 {
@@ -55,15 +55,17 @@ extension MainViewController {
 	
 	@objc func operationButtonTapped(sender: UIButton) {
 		selectedOperator = Constants.Operators(rawValue: (sender.titleLabel?.text)!)!
-		print("\(selectedOperator) Button Tapped!")
+		print("\(selectedOperator!) Button Tapped!")
 	}
 	
 	@objc func equalsButtonTapped(sender: UIButton) {
 		print("Equals Button Tapped!")
-		let operation = (operator: selectedOperator, secondOperand: secondOperand!)
-		let result = performOperation(operation)
-		updateResult(result: result)
-		updateHistory(operation: operation)
+		if let selectedOperator = selectedOperator, let secondOperand = secondOperand {
+			let operation = (operator: selectedOperator, secondOperand: secondOperand)
+			let result = performOperation(operation)
+			updateResult(result: result)
+			updateHistory(operation: operation)
+		}
 	}
 	
 	@objc func historyButtonTapped(sender: UIButton) {
@@ -222,15 +224,10 @@ extension MainViewController {
 
 extension MainViewController {
 	
-	private func selectedOperatorChanged(oldValue: Constants.Operators) {
-		if selectedOperator != .none {
-			mainView.deselectButton(operation: oldValue)
-			mainView.selectButton(operation: selectedOperator)
-			mainView.toggleTextField(isEnabled: true)
-		} else {
-			mainView.deselectButton(operation: oldValue)
-			mainView.toggleTextField(isEnabled: false)
-		}
+	private func selectedOperatorChanged(oldValue: Constants.Operators?) {
+		mainView.selectButton(selectedOperator: selectedOperator, previousOperator: oldValue)
+		let isEnabled = (selectedOperator != nil)
+		mainView.toggleTextField(isEnabled: isEnabled)
 	}
 	
 	private func undoPointerChanged() {
