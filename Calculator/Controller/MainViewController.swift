@@ -85,23 +85,7 @@ extension MainViewController {
 extension MainViewController: UITextFieldDelegate {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		defer {
-			print("Second Operand =", secondOperand ?? "nil")
-		}
-		// Enables deleting a number
-		if string.isEmpty {
-			// Change secondOperand to nil if TextField is empty
-			if textField.text?.count == 1 {
-				secondOperand = nil
-			}
-			return true
-		}
-		// Accepts numbers only
-		if Int(string) != nil {
-			secondOperand = Int((textField.text! + string))
-			return true
-		}
-		return false
+		return isValidNumber(string, in: textField)
 	}
 	
 }
@@ -273,6 +257,23 @@ extension MainViewController {
 				button.addTarget(self, action: #selector(operationButtonTapped(sender:)), for: .touchUpInside)
 			}
 		}
+	}
+	
+	private func isValidNumber(_ string: String, in textField: UITextField) -> Bool {
+		// Accepts numbers only
+		if Int(string) != nil {
+			secondOperand = Int((textField.text! + string))
+			return true
+		}
+		// Enables deleting a number
+		if string.isEmpty {
+			// Change secondOperand to nil if TextField is empty
+			if textField.text?.count == 1 {
+				secondOperand = nil
+			}
+			return true
+		}
+		return false
 	}
 	
 }
