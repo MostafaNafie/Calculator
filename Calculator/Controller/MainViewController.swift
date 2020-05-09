@@ -211,7 +211,7 @@ extension MainViewController {
 	private func updateResult(result: Int) {
 		mainView.showResult(result)
 		firstOperand = result
-		mainView.secondOperandTextField.text = ""
+		mainView.setTextFieldText("")
 		selectedOperator = .none
 		secondOperand = nil
 	}
@@ -226,10 +226,10 @@ extension MainViewController {
 		if selectedOperator != .none {
 			mainView.deselectButton(operation: oldValue)
 			mainView.selectButton(operation: selectedOperator)
-			mainView.secondOperandTextField.isEnabled = true
+			mainView.toggleTextField(isEnabled: true)
 		} else {
 			mainView.deselectButton(operation: oldValue)
-			mainView.secondOperandTextField.isEnabled = false
+			mainView.toggleTextField(isEnabled: false)
 		}
 	}
 	
@@ -257,7 +257,7 @@ extension MainViewController {
 extension MainViewController {
 	
 	private func setupTextField() {
-		mainView.secondOperandTextField.delegate = self
+		mainView.setTextFieldDelegate(self)
 	}
 	
 	private func setupCollectionView() {

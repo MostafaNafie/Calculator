@@ -13,7 +13,7 @@ class MainView: UIView {
 	// MARK: - Views
 
 	private lazy var resultLabel = setupLabel()
-	lazy var secondOperandTextField = setupTextField()
+	private lazy var secondOperandTextField = setupTextField()
 	private lazy var buttonsStackView = setupStackView()
 	lazy var operatorButtons = setupButtons()
 	lazy var historyCollectionView = setupCollectionView()
@@ -35,6 +35,18 @@ class MainView: UIView {
 // MARK: - Encapsulation
 
 extension MainView {
+	
+	func setTextFieldDelegate(_ viewController: UIViewController) {
+		secondOperandTextField.delegate = (viewController as! UITextFieldDelegate)
+	}
+	
+	func setTextFieldText(_ text: String) {
+		secondOperandTextField.text = text
+	}
+	
+	func toggleTextField(isEnabled: Bool) {
+		secondOperandTextField.isEnabled = isEnabled
+	}
 	
 	func selectButton(operation: Constants.Operators) {
 		if let button = operatorButtons[operation] {
