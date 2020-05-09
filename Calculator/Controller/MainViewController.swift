@@ -42,8 +42,8 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		setupTextField()
-		setupCollectionView()
+		mainView.setTextFieldDelegate(to: self)
+		mainView.attachCollectionView(to: self)
 		attachTargetsToButtons()
 	}
 
@@ -181,7 +181,7 @@ extension MainViewController {
 			operationsHistory = [operation]
 		}
 		undoPointer = operationsHistory.count - 1
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+		mainView.updateCollectionView()
 	}
 	
 	private func updateUndoHistory(operation: Operation) {
@@ -191,7 +191,7 @@ extension MainViewController {
 			redoOperations = [operation]
 		}
 		undoPointer -= 1
-		mainView.historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+		mainView.updateCollectionView()
 	}
 	
 	private func updateResult(result: Int) {
@@ -232,20 +232,9 @@ extension MainViewController {
 	
 }
 
-
 // MARK: - Helper functions
 
 extension MainViewController {
-	
-	private func setupTextField() {
-		mainView.setTextFieldDelegate(self)
-	}
-	
-	private func setupCollectionView() {
-		mainView.historyCollectionView.delegate = self
-		mainView.historyCollectionView.dataSource = self
-		mainView.historyCollectionView.register(OperationCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
-	}
 	
 	private func attachTargetsToButtons() {
 		for (buttonName, button) in mainView.operatorButtons {

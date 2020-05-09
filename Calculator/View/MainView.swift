@@ -16,7 +16,7 @@ class MainView: UIView {
 	private lazy var secondOperandTextField = setupTextField()
 	private lazy var buttonsStackView = setupStackView()
 	lazy var operatorButtons = setupButtons()
-	lazy var historyCollectionView = setupCollectionView()
+	private lazy var historyCollectionView = setupCollectionView()
 	
 	// MARK: - Initializers
 	
@@ -36,7 +36,16 @@ class MainView: UIView {
 
 extension MainView {
 	
-	func setTextFieldDelegate(_ viewController: UIViewController) {
+	func attachCollectionView(to viewController: UIViewController) {
+		historyCollectionView.delegate = (viewController as! UICollectionViewDelegate)
+		historyCollectionView.dataSource = (viewController as! UICollectionViewDataSource)
+	}
+	
+	func updateCollectionView() {
+		historyCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+	}
+	
+	func setTextFieldDelegate(to viewController: UIViewController) {
 		secondOperandTextField.delegate = (viewController as! UITextFieldDelegate)
 	}
 	
@@ -157,6 +166,7 @@ extension MainView {
 		let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .black
+		collectionView.register(OperationCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
 		return collectionView
 	}
 	
