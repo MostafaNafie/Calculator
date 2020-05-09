@@ -16,6 +16,7 @@
 		45A42DE62465C5CA00ACED90 /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DE52465C5CA00ACED90 /* CalculatorTests.swift */; };
 		45A42DEE2465CE7200ACED90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DED2465CE7200ACED90 /* Constants.swift */; };
 		45A42DF124670B6400ACED90 /* UIView+SetAutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */; };
+		45A42DF324670E7400ACED90 /* UIViewController+HideKeyboardWhenTappedAround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A42DF224670E7400ACED90 /* UIViewController+HideKeyboardWhenTappedAround.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		45A42DE72465C5CA00ACED90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45A42DED2465CE7200ACED90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SetAutoLayout.swift"; sourceTree = "<group>"; };
+		45A42DF224670E7400ACED90 /* UIViewController+HideKeyboardWhenTappedAround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+HideKeyboardWhenTappedAround.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				45A42DF024670B6300ACED90 /* UIView+SetAutoLayout.swift */,
+				45A42DF224670E7400ACED90 /* UIViewController+HideKeyboardWhenTappedAround.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			files = (
 				45A42DCD2464AE0300ACED90 /* OperationCell.swift in Sources */,
 				45A42DB8246496AC00ACED90 /* MainViewController.swift in Sources */,
+				45A42DF324670E7400ACED90 /* UIViewController+HideKeyboardWhenTappedAround.swift in Sources */,
 				45A42DCB24649A1600ACED90 /* MainView.swift in Sources */,
 				45A42DF124670B6400ACED90 /* UIView+SetAutoLayout.swift in Sources */,
 				45A42DB4246496AC00ACED90 /* AppDelegate.swift in Sources */,

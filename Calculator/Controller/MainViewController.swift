@@ -45,6 +45,7 @@ class MainViewController: UIViewController {
 		mainView.setTextFieldDelegate(to: self)
 		mainView.attachCollectionView(to: self)
 		attachTargetsToButtons()
+		hideKeyboardWhenTappedAround()
 	}
 
 }
@@ -256,4 +257,3 @@ extension MainViewController {
 	}
 	
 }
-
